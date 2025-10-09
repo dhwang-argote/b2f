@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 150">
+  <defs>
+    <filter id="glow" height="130%" width="130%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur" />
+      <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 18 -7" result="glow" />
+      <feBlend in="SourceGraphic" in2="glow" mode="normal" />
+    </filter>
+  </defs>
+  <path filter="url(#glow)" fill="#00B2FF" d="M50,30 L250,30 C270,30 280,40 280,60 C280,80 270,90 250,90 L50,90 C30,90 20,80 20,60 C20,40 30,30 50,30 Z" />
+  <path fill="white" d="M60,40 L80,40 L95,60 L95,40 L110,40 L110,80 L90,80 L75,60 L75,80 L60,80 Z" />
+  <path fill="white" d="M120,40 L170,40 C180,40 185,45 185,55 C185,65 180,70 170,70 L135,70 L135,80 L120,80 Z M135,55 L160,55 C165,55 165,50 160,50 L135,50 Z" />
+  <path fill="white" d="M195,40 L240,40 L240,50 L210,50 L210,55 L235,55 L235,65 L210,65 L210,70 L240,70 L240,80 L195,80 Z" />
+</svg>

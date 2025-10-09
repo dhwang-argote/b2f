@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 50">
+  <defs>
+    <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0039B3" />
+      <stop offset="100%" stop-color="#00B2FF" />
+    </linearGradient>
+    <filter id="glow" height="130%" width="130%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur" />
+      <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 18 -7" result="glow" />
+      <feBlend in="SourceGraphic" in2="glow" mode="normal" />
+    </filter>
+  </defs>
+  <g filter="url(#glow)">
+    <text x="10" y="35" font-family="Arial" font-weight="bold" font-size="30" fill="url(#logoGradient)">BET2FUND</text>
+  </g>
+</svg>

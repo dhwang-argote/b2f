@@ -1,0 +1,6 @@
+node_modules
+
+.env
+.env.*
+NODE_ENV=development
+dist
