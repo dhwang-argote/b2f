@@ -17,29 +17,29 @@ Bet2Fund is a sports trading platform designed to offer funded challenges and re
 To set up and run the project locally, follow these steps:
 
 1.  **Install Dependencies:**
-    ```bash
+    \`\`\`bash
     npm install
-    ```
+    \`\`\`
 
 2.  **Local Development (Frontend & Backend):**
     To run the application in development mode with hot-reloading for the frontend and a running backend server:
-    ```bash
+    \`\`\`bash
     npm run dev
-    ```
+    \`\`\`
     The application will typically be accessible at `http://localhost:5000` (or another port if configured).
 
 3.  **Production Build:**
     To create a production-ready build of both the frontend and backend:
-    ```bash
+    \`\`\`bash
     npm run build
-    ```
+    \`\`\`
     This command compiles the frontend assets into `dist/public` and the backend into `server-dist/index.js`.
 
 4.  **Run Production Server:**
     To start the production backend server (after running `npm run build`):
-    ```bash
+    \`\`\`bash
     npm run start
-    ```
+    \`\`\`
 
 ## Development Conventions
 

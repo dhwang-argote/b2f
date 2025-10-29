@@ -7,7 +7,7 @@ Since the codebase is large, here's the streamlined approach to get your code on
 ### Option 1: Essential Files Only (Recommended)
 
 **Core files to upload:**
-```
+\`\`\`
 ├── client/src/               # All frontend code
 ├── server/                   # All backend code  
 ├── shared/                   # Shared schemas
@@ -20,7 +20,7 @@ Since the codebase is large, here's the streamlined approach to get your code on
 ├── README.md                # Documentation
 ├── .gitignore               # Git ignore rules
 └── DEPLOYMENT.md            # This file
-```
+\`\`\`
 
 **Skip these folders/files:**
 - `node_modules/` (will be installed via npm)
@@ -34,7 +34,7 @@ Since the codebase is large, here's the streamlined approach to get your code on
 
 If you have git access in Replit:
 
-```bash
+\`\`\`bash
 # Initialize git
 git init
 
@@ -49,36 +49,36 @@ git commit -m "Initial Bet2Fund platform implementation"
 
 # Push to GitHub
 git push -u origin main
-```
+\`\`\`
 
 ### Environment Variables Setup
 
 After uploading to GitHub, set these in your deployment platform:
 
-```bash
+\`\`\`bash
 DATABASE_URL=your_supabase_database_url
 SUPABASE_URL=your_supabase_project_url  
 SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
 VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
 SESSION_SECRET=your_session_secret
-```
+\`\`\`
 
 ### Post-Upload Steps
 
 1. **Install dependencies:**
-   ```bash
+   \`\`\`bash
    npm install
-   ```
+   \`\`\`
 
 2. **Build the project:**
-   ```bash
+   \`\`\`bash
    npm run build
-   ```
+   \`\`\`
 
 3. **Start development:**
-   ```bash
+   \`\`\`bash
    npm run dev
-   ```
+   \`\`\`
 
 ### File Size Optimization
 
@@ -100,7 +100,7 @@ This reduces upload size from ~500MB to ~50MB.
 
 ### GitHub Repository Structure
 
-```
+\`\`\`
 bet2fund/
 ├── .github/workflows/       # CI/CD (optional)
 ├── client/                  # React frontend
@@ -109,7 +109,7 @@ bet2fund/
 ├── public/                  # Static assets
 ├── docs/                   # Additional documentation
 └── scripts/                # Build/deployment scripts
-```
+\`\`\`
 
 ### Quick Upload Checklist
 

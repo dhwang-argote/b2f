@@ -63,22 +63,22 @@ Bet2Fund is a prop firm that provides funding to skilled sports strategists. Use
 
 Configure these secrets in your Replit environment:
 
-```bash
+\`\`\`bash
 ODDS_API_KEY=your_odds_api_key
-```
+\`\`\`
 
 ### Quick Start
 
 1. Clone the repository
 2. Configure environment variables
 3. Run the application:
-   ```bash
+   \`\`\`bash
    npm run dev
-   ```
+   \`\`\`
 
 ## 🏗 Project Structure
 
-```
+\`\`\`
 bet2fund/
 ├── client/                    # React frontend
 │   ├── src/
@@ -90,7 +90,7 @@ bet2fund/
 │   ├── index.ts            # Server entry point
 │   └── routes.ts           # API routes
 └── attached_assets/        # Static assets and documentation
-```
+\`\`\`
 
 ## 📱 Key Pages
 
