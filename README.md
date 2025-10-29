@@ -1,6 +1,6 @@
 # Bet2Fund - Sports Trading Platform
 
-A comprehensive sports trading platform where users can participate in funded challenges to qualify for real trading accounts. Built with React/TypeScript frontend and Supabase backend.
+A comprehensive sports trading platform where users can participate in funded challenges to qualify for real trading accounts. Built with React/TypeScript frontend.
 
 ## 🏆 Overview
 
@@ -26,7 +26,7 @@ Bet2Fund is a prop firm that provides funding to skilled sports strategists. Use
 
 - **AI Chatbot**: 24/7 support with business hours expertise (9am-5pm EST)
 - **Real-time Updates**: Live progress tracking with circular progress charts
-- **Secure Authentication**: Supabase Auth integration
+- **Secure Authentication**: (Removed)
 - **Legal Compliance**: Comprehensive disclaimer and risk disclosure pages
 
 ## 🛠 Tech Stack
@@ -42,15 +42,13 @@ Bet2Fund is a prop firm that provides funding to skilled sports strategists. Use
 
 ### Backend
 
-- **Supabase** (PostgreSQL database)
-- **Supabase Auth** for authentication
 - **The Odds API** for real-time sports data
 - **Express.js** server for API routes
 
 ### External Services
 
 - **The Odds API**: Real-time sports picking odds
-- **Supabase**: Database, authentication, and real-time features
+
 - **Email Integration**: Contact support functionality
 
 ## 📦 Installation & Setup
@@ -58,7 +56,7 @@ Bet2Fund is a prop firm that provides funding to skilled sports strategists. Use
 ### Prerequisites
 
 - Node.js 20+
-- Supabase project
+
 - The Odds API key
 
 ### Environment Variables
@@ -66,11 +64,7 @@ Bet2Fund is a prop firm that provides funding to skilled sports strategists. Use
 Configure these secrets in your Replit environment:
 
 ```bash
-DATABASE_URL=your_supabase_database_url
-SUPABASE_URL=your_supabase_project_url
-SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
-VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
-SESSION_SECRET=your_session_secret
+ODDS_API_KEY=your_odds_api_key
 ```
 
 ### Quick Start
@@ -94,10 +88,7 @@ bet2fund/
 │   │   └── lib/             # Utilities and API clients
 ├── server/                   # Express backend
 │   ├── index.ts            # Server entry point
-│   ├── routes.ts           # API routes
-│   └── storage.ts          # Database operations
-├── shared/                  # Shared types and schemas
-│   └── schema.ts           # TypeScript interfaces
+│   └── routes.ts           # API routes
 └── attached_assets/        # Static assets and documentation
 ```
 
@@ -144,23 +135,9 @@ bet2fund/
 - **Key Features**: Real-time odds, multiple sports coverage
 - **Implementation**: `client/src/lib/oddsApi.ts`
 
-### Supabase Integration
 
-- **Database**: PostgreSQL with real-time capabilities
-- **Authentication**: Secure user management
-- **Storage**: File and data storage
-- **Implementation**: `server/storage.ts`
 
-## 📊 Database Schema
 
-### Core Tables
-
-- **Users**: User profiles and authentication
-- **Plans**: Challenge configurations and pricing
-- **User Challenges**: Active user trading challenges
-- **Trades**: Individual trade records
-- **FAQs**: Frequently asked questions
-- **Testimonials**: User success stories
 
 ## 🚀 Deployment
 
@@ -174,16 +151,14 @@ bet2fund/
 ### Production Checklist
 
 - [ ] Environment variables configured
-- [ ] Database migrations applied
+
 - [ ] SSL certificates active
 - [ ] Performance monitoring enabled
 - [ ] Backup procedures in place
 
 ## 🔒 Security Features
 
-- **Session Management**: Secure session handling with express-session
-- **Authentication**: Supabase Auth with JWT tokens
-- **Data Protection**: Encrypted sensitive data storage
+- **Session Management**: (Removed)
 - **API Security**: Rate limiting and request validation
 - **HTTPS**: SSL/TLS encryption for all communications
 
@@ -211,7 +186,7 @@ bet2fund/
 - AI chatbot with business hours support
 - Comprehensive legal documentation
 - Mobile-optimized design
-- Supabase authentication system
+
 
 ### Upcoming Features 🔄
 
