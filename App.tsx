@@ -1,31 +1,31 @@
-import { Switch, Route } from "wouter";
-import { queryClient } from "./lib/queryClient";
-import { QueryClientProvider } from "@tanstack/react-query";
-import { Toaster } from "@/components/ui/toaster";
-import { TooltipProvider } from "@/components/ui/tooltip";
+import { Switch, Route } from "wouter"
+import { queryClient } from "./lib/queryClient"
+import { QueryClientProvider } from "@tanstack/react-query"
+import { Toaster } from "@/components/ui/toaster"
+import { TooltipProvider } from "@/components/ui/tooltip"
 
 // Pages
-import Home from "@/pages/home";
-import OddsPage from "@/pages/odds";
-import HowItWorks from "./pages/how-it-works";
-import Plans from "./pages/plans";
-import FAQ from "./pages/faq";
-import Rules from "./pages/rules";
-import EducationalCenter from "./pages/educational-center";
-import TradingGuides from "./pages/trading-guides";
-import MarketAnalysis from "./pages/market-analysis";
-import CommunityForum from "./pages/community-forum";
-import TermsOfService from "./pages/legal/terms-of-service";
-import PrivacyPolicy from "./pages/legal/privacy-policy";
-import RiskDisclosure from "./pages/legal/risk-disclosure";
-import Disclaimer from "./pages/disclaimer";
-import LeaderboardPage from "./pages/leaderboard";
-import NotFound from "@/pages/not-found";
+import Home from "@/pages/home"
+import OddsPage from "@/pages/odds"
+import HowItWorks from "@/pages/how-it-works"
+import Plans from "@/pages/plans"
+import FAQ from "@/pages/faq"
+import Rules from "@/pages/rules"
+import EducationalCenter from "@/pages/educational-center"
+import TradingGuides from "@/pages/trading-guides"
+import MarketAnalysis from "@/pages/market-analysis"
+import CommunityForum from "@/pages/community-forum"
+import TermsOfService from "@/pages/legal/terms-of-service"
+import PrivacyPolicy from "@/pages/legal/privacy-policy"
+import RiskDisclosure from "@/pages/legal/risk-disclosure"
+import Disclaimer from "@/pages/disclaimer"
+import LeaderboardPage from "@/pages/leaderboard"
+import NotFound from "@/pages/not-found"
 
 // ✅ Import your Chatbot
-import Chatbot from "./components/ui/chatbot";
+import Chatbot from "@/components/ui/chatbot"
 
-import ScrollToTop from "@/components/ScrollToTop.tsx";
+import ScrollToTop from "@/components/ScrollToTop.tsx"
 
 function Router() {
   return (
@@ -56,7 +56,7 @@ function Router() {
       {/* Fallback to 404 */}
       <Route component={NotFound} />
     </Switch>
-  );
+  )
 }
 
 function App() {
@@ -71,7 +71,7 @@ function App() {
         <Chatbot />
       </TooltipProvider>
     </QueryClientProvider>
-  );
+  )
 }
 
-export default App;
+export default App
