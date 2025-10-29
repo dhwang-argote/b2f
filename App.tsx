@@ -6,9 +6,6 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 
 // Pages
 import Home from "@/pages/home";
-import Login from "@/pages/login";
-import Register from "@/pages/register";
-import Dashboard from "@/pages/dashboard";
 import OddsPage from "@/pages/odds";
 import HowItWorks from "./pages/how-it-works";
 import Plans from "./pages/plans";
@@ -22,14 +19,8 @@ import TermsOfService from "./pages/legal/terms-of-service";
 import PrivacyPolicy from "./pages/legal/privacy-policy";
 import RiskDisclosure from "./pages/legal/risk-disclosure";
 import Disclaimer from "./pages/disclaimer";
-import FundedAccountPage from "./pages/funded-account";
 import LeaderboardPage from "./pages/leaderboard";
-import ProfilePage from "./pages/profile";
 import NotFound from "@/pages/not-found";
-import AdminDashboard from "@/pages/admin/AdminDashboard";
-import UsersManagement from "@/pages/admin/UsersManagement";
-import Challenges from "@/pages/admin/Challenges";
-import Transactions from "@/pages/admin/Transactions";
 
 // ✅ Import your Chatbot
 import Chatbot from "./components/ui/chatbot";
@@ -40,17 +31,8 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
-      <Route path="/login" component={Login} />
-      <Route path="/register" component={Register} />
-      <Route path="/dashboard" component={Dashboard} />
-      <Route path="/admin" component={AdminDashboard} />
-      <Route path="/admin/users" component={UsersManagement} />
-      <Route path="/admin/challenges" component={Challenges} />
-      <Route path="/admin/transactions" component={Transactions} />
-      <Route path="/funded-account" component={FundedAccountPage} />
       <Route path="/leaderboard" component={LeaderboardPage} />
       <Route path="/odds" component={OddsPage} />
-      <Route path="/profile" component={ProfilePage} />
 
       {/* Information Pages */}
       <Route path="/how-it-works" component={HowItWorks} />

@@ -1,7 +1,6 @@
 import { FC } from "react";
 import { Link, useLocation } from "wouter";
 import { IconClose } from "@/components/icons";
-import { useAuth } from "@/hooks/useAuth";
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -10,7 +9,6 @@ interface MobileMenuProps {
 
 const MobileMenu: FC<MobileMenuProps> = ({ isOpen, onClose }) => {
   const [location] = useLocation();
-  const { user, isAuthenticated } = useAuth();
 
   const navLinks = [
     { href: "/how-it-works", label: "How It Works" },
@@ -20,12 +18,6 @@ const MobileMenu: FC<MobileMenuProps> = ({ isOpen, onClose }) => {
     { href: "/faq", label: "FAQ" },
     { href: "/educational-center", label: "Educational Center" },
     { href: "/community-forum", label: "Community Forum" },
-  ];
-
-  const authNavLinks = [
-    ...(isAuthenticated
-      ? [{ href: "/funded-account", label: "Funded Account" }]
-      : []),
   ];
 
   if (!isOpen) return null;
@@ -61,67 +53,15 @@ const MobileMenu: FC<MobileMenuProps> = ({ isOpen, onClose }) => {
               isActive={location === link.href}
             />
           ))}
-
-          {authNavLinks.map((link) => (
-            <MobileNavLink
-              key={link.href}
-              href={link.href}
-              label={link.label}
-              onClick={onClose}
-              isActive={location === link.href}
-            />
-          ))}
-
-          <div className="pt-6 border-t border-primary/10">
-            {isAuthenticated ? (
-              <>
-                <MobileNavLink
-                  href="/dashboard"
-                  label="Dashboard"
-                  onClick={onClose}
-                  isActive={location === "/dashboard"}
-                />
-                <MobileNavLink
-                  href="/account"
-                  label="My Account"
-                  onClick={onClose}
-                  isActive={location === "/account"}
-                />
-              </>
-            ) : (
-              <>
-                <MobileNavLink
-                  href="/login"
-                  label="Login"
-                  onClick={onClose}
-                  isActive={location === "/login"}
-                />
-                <MobileNavLink
-                  href="/register"
-                  label="Register"
-                  onClick={onClose}
-                  isActive={location === "/register"}
-                />
-              </>
-            )}
-          </div>
         </nav>
       </div>
 
       <div className="p-4 border-t border-primary/20">
-        {isAuthenticated ? (
-          <Link href="/dashboard">
-            <div className="block w-full py-4 bg-primary hover:bg-primary/90 text-white text-center rounded-md font-semibold shadow-[0_0_15px_rgba(0,178,255,0.7)] transition-all text-lg cursor-pointer">
-              Dashboard
-            </div>
-          </Link>
-        ) : (
-          <Link href="/#plans">
-            <div className="block w-full py-4 bg-primary hover:bg-primary/90 text-white text-center rounded-md font-semibold shadow-[0_0_15px_rgba(0,178,255,0.7)] transition-all text-lg cursor-pointer">
-              Get Started
-            </div>
-          </Link>
-        )}
+        <Link href="/#plans">
+          <div className="block w-full py-4 bg-primary hover:bg-primary/90 text-white text-center rounded-md font-semibold shadow-[0_0_15px_rgba(0,178,255,0.7)] transition-all text-lg cursor-pointer">
+            Get Started
+          </div>
+        </Link>
       </div>
     </div>
   );

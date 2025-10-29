@@ -11,7 +11,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useLocation } from 'wouter';
 import { useToast } from '@/hooks/use-toast';
 import { useQueryClient } from '@tanstack/react-query';
-import { createTrade } from '@/lib/supabase';
+
 import {
   Dialog,
   DialogContent,
@@ -405,13 +405,7 @@ const GameCard: React.FC<{ game: Game }> = ({ game }) => {
   // Get totals data
   const totals = getTotalsForGame(game);
 
-  // Betting dialog state
-  const [betDialogOpen, setBetDialogOpen] = useState(false);
-  const [selectedMarket, setSelectedMarket] = useState<string>("moneyline");
-  const [selectedTeam, setSelectedTeam] = useState<string>("");
-  const [selectedOdds, setSelectedOdds] = useState<number>(0);
-  const [stakeAmount, setStakeAmount] = useState<string>("100");
-  const [submitting, setSubmitting] = useState(false);
+
 
   const queryClient = useQueryClient();
 
@@ -427,116 +421,7 @@ const GameCard: React.FC<{ game: Game }> = ({ game }) => {
     return;
   }, [betDialogOpen]);
 
-  const handlePlaceBet = async () => {
-    if (!selectedTeam || !stakeAmount) {
-      toast({
-        title: "Missing information",
-        description: "Please select a team and enter a stake amount",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    setSubmitting(true);
-
-    try {
-      // Attempt to find an active challenge for the current user via server API
-      let challengeId: number | null = null;
-      try {
-        const res = await fetch('/api/user-challenges', { credentials: 'include' });
-        if (res.ok) {
-          const userChallenges = await res.json();
-          if (Array.isArray(userChallenges) && userChallenges.length > 0) {
-            // Prefer an in_progress challenge, otherwise pick the first
-            const inprog = userChallenges.find((c: any) => c.status === 'in_progress');
-            const chosen = inprog || userChallenges[0];
-            challengeId = Number(chosen.id);
-          }
-        }
-      } catch (err) {
-        console.warn('Failed to fetch user challenges for demo bet:', err);
-      }
-
-      // Compose selection text
-      const selectionText = selectedMarket === 'total'
-        ? (selectedTeam === 'over' ? `Over ${totals.line}` : `Under ${totals.line}`)
-        : selectedTeam;
-
-      if (challengeId) {
-        // Call server API to create trade (will validate session + challenge ownership)
-        const payload = {
-          challengeId: challengeId,
-          sport: (game as any).sport_title || (game as any).sport_key || 'unknown',
-          market: selectedMarket,
-          selection: selectionText,
-          odds: Number(selectedOdds) || 0,
-          stake: Number(parseFloat(stakeAmount)) || 0
-        };
-
-        const createdRes = await createTrade(payload as any);
-        let created: any = null;
-        try {
-          created = createdRes && typeof createdRes.json === 'function' ? await createdRes.json() : createdRes;
-        } catch (err) {
-          console.warn('Failed to parse createTrade response as JSON, returning raw:', err);
-          created = createdRes;
-        }
-
-        // If API returns created trade, normalize and update cache
-        if (created && (((created as any).id) || (created as any).id === 0)) {
-          const c = created as any;
-          const newTrade = {
-            id: c.id,
-            challengeId: c.challengeId || c.challenge_id || challengeId,
-            userId: c.userId || c.user_id,
-            sport: c.sport || payload.sport,
-            market: c.market,
-            selection: c.selection,
-            odds: Number(c.odds) || Number(payload.odds),
-            stake: Number(c.stake) || Number(payload.stake),
-            createdAt: c.createdAt || c.created_at || new Date().toISOString(),
-            settledAt: c.settledAt || c.settled_at || null,
-            result: c.result || null,
-            profitLoss: c.profitLoss || c.profit_loss || null,
-            phase: c.phase || null,
-            market_type: c.market_type || c.marketType || selectedMarket,
-            team_type: c.team_type || c.teamType || null,
-            line: c.line || null
-          } as any;
-
-          // Invalidate trades queries so Dashboard refetches authoritative list
-          queryClient.invalidateQueries({ queryKey: ['trades'] });
-
-          toast({
-            title: 'Bet placed',
-            description: `Bet created (ID: ${newTrade.id}). It will appear in your dashboard momentarily.`,
-            variant: 'default'
-          });
-
-          setSubmitting(false);
-          setBetDialogOpen(false);
-          return;
-        }
-      }
-
-      // Fallback if no challenge found or API didn't return created trade: show a local confirmation
-      toast({
-        title: 'Bet placed (local)',
-        description: `You placed a ${stakeAmount} unit ${selectedMarket} bet on ${selectionText} at odds of ${selectedOdds.toFixed(2)}. It will appear in your dashboard shortly.`,
-        variant: 'default'
-      });
-
-      setSubmitting(false);
-      setBetDialogOpen(false);
-
-      // Allow user to navigate to dashboard to view tickets
-
-    } catch (err: any) {
-      console.error('Error placing bet:', err);
-      toast({ title: 'Error', description: err?.message || 'Failed to place bet', variant: 'destructive' });
-      setSubmitting(false);
-    }
-  };
+  
 
   return (
     <Card className="overflow-hidden border border-primary/30 transition-all hover:shadow-md bg-[#121212]/70 backdrop-blur-sm">
