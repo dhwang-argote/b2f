@@ -8,7 +8,8 @@ export default {
     "./components/**/*.{js,jsx,ts,tsx}",
     "./lib/**/*.{js,jsx,ts,tsx}",
     "./hooks/**/*.{js,jsx,ts,tsx}",
-    "./shared/**/*.{js,jsx,ts,tsx}"
+    "./shared/**/*.{js,jsx,ts,tsx}",
+    "!./node_modules/**"
   ],
   theme: {
     extend: {
