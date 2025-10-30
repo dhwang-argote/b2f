@@ -1,26 +1,22 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
-import { fileURLToPath } from "url";
 
-const rootDir = fileURLToPath(new URL(".", import.meta.url));
+const projectRoot = process.cwd();
 
 export default defineConfig({
-  plugins: [
-    react(),
-  ],
-  
+  plugins: [react()],
+
   resolve: {
     alias: {
-      "@": path.resolve(rootDir, "."),
-      "@shared": path.resolve(rootDir, "shared"),
-      "@assets": path.resolve(rootDir, "assets"),
+      "@": path.resolve(projectRoot, "."),
+      "@shared": path.resolve(projectRoot, "shared"),
+      "@assets": path.resolve(projectRoot, "assets"),
     },
   },
-  root: path.resolve(rootDir),
+  // Use default root (project root)
   build: {
-    outDir: path.resolve(rootDir, "dist/public"),
+    outDir: path.resolve(projectRoot, "dist/public"),
     emptyOutDir: true,
   },
-
 });
