@@ -1,4 +1,4 @@
-import { Link } from "wouter";
+
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
@@ -53,15 +53,12 @@ const HeroSection = () => {
               capital.
             </p>
             <div className="flex flex-wrap gap-4">
-              <Link href="#plans">
+              <a href="#plans">
                 <Button
                   size="lg"
                   className="px-8 py-6 btn-neon text-white rounded-md font-medium text-lg transition-all"
-                >
-                  Get Funded Now
-                </Button>
-              </Link>
-              <Link href="#how-it-works">
+                                </a>
+              <a href="#how-it-works">
                 <Button
                   variant="outline"
                   size="lg"
@@ -69,8 +66,7 @@ const HeroSection = () => {
                 >
                   Learn More
                 </Button>
-              </Link>
-            </div>
+                              </a>            </div>
           </motion.div>
 
           {/* ... ostatak tvog desnog boxa ostaje isti */}
