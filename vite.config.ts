@@ -1,21 +1,17 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
-import path from "path";
-
+import { defineConfig } from "vite"
+import react from "@vitejs/plugin-react"
+import path from "path"
 
 export default defineConfig({
-  plugins: [
-    react(),
+  plugins: [react()],
 
-
-  ],
-  
   resolve: {
     alias: {
       "@": path.resolve(import.meta.dirname, "."),
       "@shared": path.resolve(import.meta.dirname, "shared"),
       "@assets": path.resolve(import.meta.dirname, "assets"),
     },
+    extensions: [".tsx", ".ts", ".jsx", ".js", ".json"],
   },
   root: path.resolve(import.meta.dirname),
   build: {
@@ -23,12 +19,11 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks(id) {
-          if (id.includes('node_modules')) {
-            return id.toString().split('node_modules/')[1].split('/')[0].toString();
+          if (id.includes("node_modules")) {
+            return id.toString().split("node_modules/")[1].split("/")[0].toString()
           }
         },
       },
     },
   },
-
-});
+})
