@@ -5,27 +5,27 @@ import { Toaster } from "@/components/ui/toaster"
 import { TooltipProvider } from "@/components/ui/tooltip"
 
 // Pages
-import Home from "@/pages/home.tsx"
-import OddsPage from "@/pages/odds.tsx"
-import HowItWorks from "@/pages/how-it-works.tsx"
-import Plans from "@/pages/plans.tsx"
-import FAQ from "@/pages/faq.tsx"
-import Rules from "@/pages/rules.tsx"
-import EducationalCenter from "@/pages/educational-center.tsx"
-import TradingGuides from "@/pages/trading-guides.tsx"
-import MarketAnalysis from "@/pages/market-analysis.tsx"
-import CommunityForum from "@/pages/community-forum.tsx"
-import TermsOfService from "@/pages/legal/terms-of-service.tsx"
-import PrivacyPolicy from "@/pages/legal/privacy-policy.tsx"
-import RiskDisclosure from "@/pages/legal/risk-disclosure.tsx"
-import Disclaimer from "@/pages/disclaimer.tsx"
-import LeaderboardPage from "@/pages/leaderboard.tsx"
-import NotFound from "@/pages/not-found.tsx"
+import Home from "@/pages/home"
+import OddsPage from "@/pages/odds"
+import HowItWorks from "@/pages/how-it-works"
+import Plans from "@/pages/plans"
+import FAQ from "@/pages/faq"
+import Rules from "@/pages/rules"
+import EducationalCenter from "@/pages/educational-center"
+import TradingGuides from "@/pages/trading-guides"
+import MarketAnalysis from "@/pages/market-analysis"
+import CommunityForum from "@/pages/community-forum"
+import TermsOfService from "@/pages/legal/terms-of-service"
+import PrivacyPolicy from "@/pages/legal/privacy-policy"
+import RiskDisclosure from "@/pages/legal/risk-disclosure"
+import Disclaimer from "@/pages/disclaimer"
+import LeaderboardPage from "@/pages/leaderboard"
+import NotFound from "@/pages/not-found"
 
 // ✅ Import your Chatbot
 import Chatbot from "@/components/ui/chatbot"
 
-import ScrollToTop from "@/components/ScrollToTop.tsx"
+import ScrollToTop from "@/components/ScrollToTop"
 
 function Router() {
   return (
@@ -66,8 +66,6 @@ function App() {
         <Toaster />
         <ScrollToTop />
         <Router />
-
-        {/* ✅ Add Chatbot here so it appears globally */}
         <Chatbot />
       </TooltipProvider>
     </QueryClientProvider>
