@@ -65,8 +65,10 @@ export default function Home() {
       }
     }
 
-    handleInitialScroll()
-    window.addEventListener("load", handleInitialScroll)
+    if (typeof window !== 'undefined') {
+      handleInitialScroll()
+      window.addEventListener("load", handleInitialScroll)
+    }
 
     return () => {
       window.removeEventListener("load", handleInitialScroll)

@@ -1,0 +1,13 @@
+{
+  "/_global-error/page": "/_global-error",
+  "/_not-found/page": "/_not-found",
+  "/api/faqs/route": "/api/faqs",
+  "/api/health/route": "/api/health",
+  "/api/odds/[sport]/route": "/api/odds/[sport]",
+  "/api/odds/sports/route": "/api/odds/sports",
+  "/api/plans/[id]/route": "/api/plans/[id]",
+  "/api/plans/route": "/api/plans",
+  "/api/shark-picks/[sport]/route": "/api/shark-picks/[sport]",
+  "/api/testimonials/route": "/api/testimonials",
+  "/page": "/"
+}

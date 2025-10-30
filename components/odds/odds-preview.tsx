@@ -8,9 +8,9 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useLocation } from 'wouter';
 import { useToast } from '@/hooks/use-toast';
 import { useQueryClient } from '@tanstack/react-query';
+import { useBetDialogScrollLock } from '@/hooks/use-bet-dialog-scroll-lock';
 
 import {
   Dialog,
@@ -33,6 +33,18 @@ import {
 
 const OddsPreview: React.FC = () => {
   const [activeTab, setActiveTab] = useState('nba');
+
+  const [betDialogOpen, setBetDialogOpen] = useState(false);
+  const [selectedMarket, setSelectedMarket] = useState('moneyline');
+  const [selectedTeam, setSelectedTeam] = useState('');
+  const [selectedOdds, setSelectedOdds] = useState(0);
+  const [stakeAmount, setStakeAmount] = useState('10');
+  const [submitting, setSubmitting] = useState(false);
+
+  const handlePlaceBet = () => {
+    console.log("Placing bet...");
+    // Placeholder for actual bet placement logic
+  };
 
   // Helper: transform 'shark picks' response into a minimal Game-like shape
   const transformPicksToGames = (picks: any[], sportTitle = ''): Game[] => {
@@ -389,7 +401,7 @@ const GameCard: React.FC<{ game: Game }> = ({ game }) => {
   const homeOdds = findBestOddsForTeam(game, game.home_team);
   const awayOdds = findBestOddsForTeam(game, game.away_team);
   const gameTime = formatGameDate(game.commence_time);
-  const [, navigate] = useLocation();
+  // const [, navigate] = useLocation(); // Removed wouter's useLocation
   const { toast } = useToast();
 
   // Determine which team has better odds (likely the recommended pick)
@@ -409,19 +421,7 @@ const GameCard: React.FC<{ game: Game }> = ({ game }) => {
 
   const queryClient = useQueryClient();
 
-  // Prevent background/body scroll when dialog is open
-  useEffect(() => {
-    if (betDialogOpen) {
-      const prev = document.body.style.overflow;
-      document.body.style.overflow = 'hidden';
-      return () => {
-        document.body.style.overflow = prev || '';
-      };
-    }
-    return;
-  }, [betDialogOpen]);
-
-  
+  useBetDialogScrollLock(betDialogOpen);
 
   return (
     <Card className="overflow-hidden border border-primary/30 transition-all hover:shadow-md bg-[#121212]/70 backdrop-blur-sm">

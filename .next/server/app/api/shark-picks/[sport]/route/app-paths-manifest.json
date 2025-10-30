@@ -1,0 +1,3 @@
+{
+  "/api/shark-picks/[sport]/route": "app/api/shark-picks/[sport]/route.js"
+}

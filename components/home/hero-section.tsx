@@ -57,7 +57,10 @@ const HeroSection = () => {
                 <Button
                   size="lg"
                   className="px-8 py-6 btn-neon text-white rounded-md font-medium text-lg transition-all"
-                                </a>
+                >
+                  Get Started
+                </Button>
+              </a>
               <a href="#how-it-works">
                 <Button
                   variant="outline"
@@ -66,7 +69,8 @@ const HeroSection = () => {
                 >
                   Learn More
                 </Button>
-                              </a>            </div>
+              </a>
+            </div>
           </motion.div>
 
           {/* ... ostatak tvog desnog boxa ostaje isti */}

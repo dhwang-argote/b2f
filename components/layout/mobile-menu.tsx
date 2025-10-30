@@ -1,6 +1,7 @@
 import { FC } from "react";
-import { Link, useLocation } from "wouter";
+import Link from "next/link";
 import { IconClose } from "@/components/icons";
+import { usePathname } from "next/navigation";
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -8,7 +9,7 @@ interface MobileMenuProps {
 }
 
 const MobileMenu: FC<MobileMenuProps> = ({ isOpen, onClose }) => {
-  const [location] = useLocation();
+  const pathname = usePathname();
 
   const navLinks = [
     { href: "/how-it-works", label: "How It Works" },
@@ -50,7 +51,7 @@ const MobileMenu: FC<MobileMenuProps> = ({ isOpen, onClose }) => {
               href={link.href}
               label={link.label}
               onClick={onClose}
-              isActive={location === link.href}
+              isActive={pathname === link.href}
             />
           ))}
         </nav>

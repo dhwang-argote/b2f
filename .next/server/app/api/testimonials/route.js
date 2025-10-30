@@ -1,1 +1,6 @@
-"use strict";(()=>{var e={};e.id=382,e.ids=[382],e.modules={399:e=>{e.exports=require("next/dist/compiled/next-server/app-page.runtime.prod.js")},517:e=>{e.exports=require("next/dist/compiled/next-server/app-route.runtime.prod.js")},4886:(e,t,r)=>{r.r(t),r.d(t,{originalPathname:()=>c,patchFetch:()=>x,requestAsyncStorage:()=>d,routeModule:()=>u,serverHooks:()=>m,staticGenerationAsyncStorage:()=>l});var s={};r.r(s),r.d(s,{GET:()=>p});var i=r(9303),a=r(8716),o=r(670),n=r(7070);async function p(){return n.NextResponse.json([])}let u=new i.AppRouteRouteModule({definition:{kind:a.x.APP_ROUTE,page:"/api/testimonials/route",pathname:"/api/testimonials",filename:"route",bundlePath:"app/api/testimonials/route"},resolvedPagePath:"C:\\Users\\User\\Desktop\\temp\\b2f\\app\\api\\testimonials\\route.ts",nextConfigOutput:"",userland:s}),{requestAsyncStorage:d,staticGenerationAsyncStorage:l,serverHooks:m}=u,c="/api/testimonials/route";function x(){return(0,o.patchFetch)({serverHooks:m,staticGenerationAsyncStorage:l})}}};var t=require("../../../webpack-runtime.js");t.C(e);var r=e=>t(t.s=e),s=t.X(0,[948,972],()=>r(4886));module.exports=s})();
+var R=require("../../../chunks/[turbopack]_runtime.js")("server/app/api/testimonials/route.js")
+R.c("server/chunks/[root-of-the-server]__0c4251fe._.js")
+R.c("server/chunks/[root-of-the-server]__b2da729a._.js")
+R.c("server/chunks/_next-internal_server_app_api_testimonials_route_actions_2f151197.js")
+R.m(28163)
+module.exports=R.m(28163).exports

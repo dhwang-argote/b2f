@@ -1,13 +1,16 @@
+"use client";
+
 import { useState, useEffect } from "react";
-import { Link, useLocation } from "wouter";
+import Link from "next/link";
 import { IconMenu } from "@/components/icons";
 import MobileMenu from "./mobile-menu";
 import headerIcon from "../../assets/b2f/logo-main.png";
+import { usePathname } from "next/navigation";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [location] = useLocation();
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -21,9 +24,9 @@ const Header = () => {
   }, []);
 
   useEffect(() => {
-    // Close mobile menu when location changes
+    // Close mobile menu when pathname changes
     setIsMobileMenuOpen(false);
-  }, [location]);
+  }, [pathname]);
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -44,7 +47,7 @@ const Header = () => {
             <div className="flex-shrink-0 flex items-center">
               <Link href="/">
                 <img
-                  src={headerIcon}
+                  src={headerIcon.src}
                   alt="Bet2Fund Logo"
                   className="h-16 sm:h-20 md:h-24 logo-glow cursor-pointer"
                 />

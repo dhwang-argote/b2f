@@ -1,9 +1,10 @@
-import { NextResponse } from "next/server"
+import { NextRequest, NextResponse } from "next/server"
 import axios from "axios"
 
-export async function GET(request: Request, { params }: { params: { sport: string } }) {
+export async function GET(request: NextRequest, context: { params: Promise<{ sport: string }> }) {
   try {
-    const { sport } = params
+    const resolvedParams = await context.params;
+    const { sport } = resolvedParams;
     const apiKey = process.env.ODDS_API_KEY
 
     if (!apiKey) {

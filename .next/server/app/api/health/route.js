@@ -1,1 +1,6 @@
-"use strict";(()=>{var e={};e.id=829,e.ids=[829],e.modules={399:e=>{e.exports=require("next/dist/compiled/next-server/app-page.runtime.prod.js")},517:e=>{e.exports=require("next/dist/compiled/next-server/app-route.runtime.prod.js")},624:(e,t,r)=>{r.r(t),r.d(t,{originalPathname:()=>c,patchFetch:()=>m,requestAsyncStorage:()=>d,routeModule:()=>u,serverHooks:()=>l,staticGenerationAsyncStorage:()=>h});var a={};r.r(a),r.d(a,{GET:()=>i});var o=r(9303),s=r(8716),n=r(670),p=r(7070);async function i(){return p.NextResponse.json({status:"ok"})}let u=new o.AppRouteRouteModule({definition:{kind:s.x.APP_ROUTE,page:"/api/health/route",pathname:"/api/health",filename:"route",bundlePath:"app/api/health/route"},resolvedPagePath:"C:\\Users\\User\\Desktop\\temp\\b2f\\app\\api\\health\\route.ts",nextConfigOutput:"",userland:a}),{requestAsyncStorage:d,staticGenerationAsyncStorage:h,serverHooks:l}=u,c="/api/health/route";function m(){return(0,n.patchFetch)({serverHooks:l,staticGenerationAsyncStorage:h})}}};var t=require("../../../webpack-runtime.js");t.C(e);var r=e=>t(t.s=e),a=t.X(0,[948,972],()=>r(624));module.exports=a})();
+var R=require("../../../chunks/[turbopack]_runtime.js")("server/app/api/health/route.js")
+R.c("server/chunks/[root-of-the-server]__385b6d4f._.js")
+R.c("server/chunks/[root-of-the-server]__b2da729a._.js")
+R.c("server/chunks/_next-internal_server_app_api_health_route_actions_da3433c4.js")
+R.m(61370)
+module.exports=R.m(61370).exports
