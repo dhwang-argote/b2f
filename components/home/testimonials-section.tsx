@@ -289,7 +289,7 @@ const TestimonialCard = ({ testimonial }: TestimonialCardProps) => {
       viewport={{ once: true, margin: "-50px" }}
       transition={{
         duration: 1.5,
-        ease: [0.23, 1, 0.32, 1],
+        ease: "cubic-bezier(0.23, 1, 0.32, 1)",
         delay: 0.05,
       }}
       className="bg-[#121212]/70 backdrop-blur-sm p-6 rounded-xl border border-primary/30 min-w-full md:min-w-[calc(50%-1.5rem)]"

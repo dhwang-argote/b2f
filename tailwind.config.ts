@@ -2,7 +2,10 @@ import type { Config } from "tailwindcss";
 
 export default {
   darkMode: ["class"],
-  content: ["./index.html", "./**/*.{js,jsx,ts,tsx}"],
+  content: [
+    "./index.html",
+    "./{pages,components,lib,hooks,shared}/**/*.{js,jsx,ts,tsx}",
+  ],
   theme: {
     extend: {
       borderRadius: {
@@ -80,11 +83,6 @@ export default {
           },
         },
       },
-      animation: {
-        "accordion-down": "accordion-down 0.2s ease-out",
-        "accordion-up": "accordion-up 0.2s ease-out",
+      transitionTimingFunction: {
+        'framer-ease': 'cubic-bezier(0.23, 1, 0.32, 1)',
       },
-    },
-  },
-  plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
-} satisfies Config;
