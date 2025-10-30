@@ -5,6 +5,9 @@ import { createServer as createViteServer, createLogger } from "vite";
 import { type Server } from "http";
 import viteConfig from "../vite.config";
 import { nanoid } from "nanoid";
+import { fileURLToPath } from "url";
+
+const __dirname = fileURLToPath(new URL('.', import.meta.url));
 
 const viteLogger = createLogger();
 
@@ -46,7 +49,7 @@ export async function setupVite(app: Express, server: Server) {
 
     try {
       const clientTemplate = path.resolve(
-        import.meta.dirname,
+        __dirname,
         "..",
         "index.html",
       );
@@ -69,7 +72,7 @@ export async function setupVite(app: Express, server: Server) {
 export function serveStatic(app: Express) {
   // When built, server code lives in server-dist/
   // so we go up one folder to reach the frontend dist/public/
-  const distPath = path.resolve(import.meta.dirname, "../dist/public");
+  const distPath = path.resolve(__dirname, "../dist/public");
 
   if (!fs.existsSync(distPath)) {
     throw new Error(
