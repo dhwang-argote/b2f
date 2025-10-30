@@ -52,11 +52,7 @@ git push -u origin main
 After uploading to GitHub, set these in your deployment platform:
 
 ```bash
-DATABASE_URL=your_supabase_database_url
-SUPABASE_URL=your_supabase_project_url  
-SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
-VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
-SESSION_SECRET=your_session_secret
+ODDS_API_KEY=your_odds_api_key
 ```
 
 ### Post-Upload Steps

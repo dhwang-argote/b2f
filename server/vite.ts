@@ -3,7 +3,7 @@ import fs from "fs";
 import path from "path";
 import { createServer as createViteServer, createLogger } from "vite";
 import { type Server } from "http";
-import viteConfig from "../vite.config";
+import viteConfig from "../vite.config.js";
 import { nanoid } from "nanoid";
 import { fileURLToPath } from "url";
 import { log } from "./runtime";
@@ -50,10 +50,10 @@ export async function setupVite(app: Express, server: Server) {
         `src="/main.tsx"`,
         `src="/main.tsx?v=${nanoid()}"`,
       );
-      const page = await vite.transformIndexHtml(url, template);
+      const page = await (vite as any).transformIndexHtml(url, template);
       res.status(200).set({ "Content-Type": "text/html" }).end(page);
     } catch (e) {
-      vite.ssrFixStacktrace(e as Error);
+      (vite as any).ssrFixStacktrace(e as Error);
       next(e);
     }
   });

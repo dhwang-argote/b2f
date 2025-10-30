@@ -1,4 +1,3 @@
-import { useQuery } from "@tanstack/react-query";
 import Layout from "@/components/layout/layout";
 import { motion } from "framer-motion";
 import {
@@ -9,17 +8,110 @@ import {
 } from "@/components/ui/accordion";
 
 const FAQ = () => {
-  const { data: faqs, isLoading } = useQuery({
-    queryKey: ["/api/faqs"],
-    queryFn: async () => {
-      const res = await fetch("/api/faqs");
-      if (!res.ok) throw new Error("Failed to fetch FAQs");
-      return res.json();
+  const faqs = [
+    {
+      id: 1,
+      question: "How does the funding process work?",
+      answer:
+        "Our funding process is straightforward: First, you purchase a challenge based on your desired account size. You'll need to meet the profit target while following our risk management rules. Once successful, you'll receive access to a funded account with our capital, and you can start trading immediately while keeping up to 80% of the profits you generate.",
+      category: "General Questions",
+      order: 1,
+      isActive: true,
     },
-  });
+    {
+      id: 2,
+      question: "What happens if I lose money?",
+      answer:
+        "If you exceed the maximum drawdown limit during the evaluation or funded phase, your account will be closed. However, you can always purchase a new challenge and try again. The key advantage is that you're never risking your own capital once funded - we take all the financial risk.",
+      category: "General Questions",
+      order: 2,
+      isActive: true,
+    },
+    {
+      id: 3,
+      question: "How quickly will I receive payouts?",
+      answer:
+        "Payouts are processed according to your account tier - weekly for Professional and Advanced accounts, and bi-weekly for Starter accounts. All payouts are subject to a minimum threshold of $100 and are typically processed within 1-2 business days after the payout period ends.",
+      category: "General Questions",
+      order: 3,
+      isActive: true,
+    },
+    {
+      id: 4,
+      question: "Can I trade multiple sports simultaneously?",
+      answer:
+        "Yes, you can trade any sports and markets that are permitted under our rules. Many of our successful traders specialize in multiple sports to capitalize on various seasons and opportunities throughout the year.",
+      category: "General Questions",
+      order: 4,
+      isActive: true,
+    },
+    {
+      id: 5,
+      question: "Is there a time limit to complete the challenge?",
+      answer:
+        "Yes, you have 30 calendar days to complete the evaluation phase and reach your profit target. You must also trade on a minimum of 10 different days during this period to demonstrate consistency.",
+      category: "General Questions",
+      order: 5,
+      isActive: true,
+    },
+    {
+      id: 6,
+      question: "Can I have more than 1 account?",
+      answer:
+        "You may participate in up to five challenges simultaneously, regardless of your account size. This limit is in place to ensure a balanced and manageable experience.",
+      category: "General Questions",
+      order: 6,
+      isActive: true,
+    },
+    {
+      id: 7,
+      question: "What trading platform do you use?",
+      answer:
+        "We've developed a proprietary trading platform that integrates with major sportsbooks and provides advanced analytics tools. The platform allows you to execute trades, track performance, and access real-time odds across multiple bookmakers.",
+      category: "Platform Specifics",
+      order: 6,
+      isActive: true,
+    },
+    {
+      id: 8,
+      question: "Do you offer refunds if I don't pass the challenge?",
+      answer:
+        "We do not offer refunds for challenges that aren't successfully completed. The challenge fee covers the costs of providing you with the simulation environment, tools, and evaluation services. However, we do offer a 50% discount on a second attempt if you fail your first challenge.",
+      category: "Payment and Refunds",
+      order: 7,
+      isActive: true,
+    },
+    {
+      id: 9,
+      question: "Where can I trade from? Are there country restrictions?",
+      answer:
+        "You can trade from most countries worldwide. However, due to regulatory constraints, we cannot accept traders from certain jurisdictions. Please check our Terms of Service for the current list of restricted countries, or contact our support team for clarification.",
+      category: "Legal and Compliance",
+      order: 8,
+      isActive: true,
+    },
+    {
+      id: 10,
+      question: "Can I have multiple funded accounts?",
+      answer:
+        "Yes, successful traders can manage multiple funded accounts. However, each account must be earned by passing a separate challenge. Many of our traders start with one account and add more as they prove their profitability and develop different strategies.",
+      category: "Account Management",
+      order: 9,
+      isActive: true,
+    },
+    {
+      id: 11,
+      question: "What support do you provide to traders?",
+      answer:
+        "We provide comprehensive support including 24/7 technical assistance, educational resources, market analysis tools, and access to our trader community. Professional and Advanced account holders also receive personalized coaching sessions and priority support.",
+      category: "Support and Community",
+      order: 10,
+      isActive: true,
+    },
+  ];
 
   // Group FAQs by category
-  const faqsByCategory = faqs?.reduce(
+  const faqsByCategory = faqs.reduce(
     (acc: Record<string, any[]>, faq: any) => {
       if (!acc[faq.category]) {
         acc[faq.category] = [];
@@ -48,240 +140,40 @@ const FAQ = () => {
           </p>
         </motion.div>
 
-        {isLoading ? (
-          <div className="space-y-8">
-            {[1, 2, 3].map((i) => (
-              <div
-                key={i}
-                className="bg-[#121212]/70 backdrop-blur-sm border border-primary/20 rounded-lg p-6 animate-pulse"
-              >
-                <div className="h-8 bg-gray-700 rounded w-1/3 mb-8"></div>
-                {[1, 2, 3].map((j) => (
-                  <div key={j} className="mb-6">
-                    <div className="h-6 bg-gray-700 rounded w-3/4 mb-3"></div>
-                    <div className="h-4 bg-gray-700/50 rounded w-full"></div>
-                  </div>
-                ))}
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="space-y-12">
-            {faqsByCategory &&
-              Object.entries(faqsByCategory).map(
-                ([category, categoryFaqs], index) => (
-                  <motion.div
-                    key={category}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 0.1 * index }}
-                    className="bg-[#121212]/70 backdrop-blur-sm border border-primary/20 rounded-lg p-6 md:p-8"
+        <div className="space-y-12">
+          {Object.entries(faqsByCategory).map(([category, categoryFaqs], index) => (
+            <motion.div
+              key={category}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 * index }}
+              className="bg-[#121212]/70 backdrop-blur-sm border border-primary/20 rounded-lg p-6 md:p-8"
+            >
+              <h2 className="text-2xl font-bold mb-6 text-white">
+                {category}
+              </h2>
+
+              <Accordion type="single" collapsible className="space-y-4">
+                {categoryFaqs.map((faq: any) => (
+                  <AccordionItem
+                    key={faq.id}
+                    value={`faq-${faq.id}`}
+                    className="border border-primary/10 rounded-lg px-6 py-2 bg-black/20"
                   >
-                    <h2 className="text-2xl font-bold mb-6 text-white">
-                      {category}
-                    </h2>
-
-                    <Accordion type="single" collapsible className="space-y-4">
-                      {categoryFaqs.map((faq: any) => (
-                        <AccordionItem
-                          key={faq.id}
-                          value={`faq-${faq.id}`}
-                          className="border border-primary/10 rounded-lg px-6 py-2 bg-black/20"
-                        >
-                          <AccordionTrigger className="text-white hover:text-primary text-left font-medium py-4">
-                            {faq.question}
-                          </AccordionTrigger>
-                          <AccordionContent className="text-white/80 pt-2 pb-6">
-                            <div
-                              dangerouslySetInnerHTML={{ __html: faq.answer }}
-                            />
-                          </AccordionContent>
-                        </AccordionItem>
-                      ))}
-                    </Accordion>
-                  </motion.div>
-                )
-              )}
-
-            {/* Static FAQs if no dynamic content is available */}
-            {(!faqsByCategory || Object.keys(faqsByCategory).length === 0) && (
-              <div className="space-y-12">
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5 }}
-                  className="bg-[#121212]/70 backdrop-blur-sm border border-primary/20 rounded-lg p-6 md:p-8"
-                >
-                  <h2 className="text-2xl font-bold mb-6 text-white">
-                    General Questions
-                  </h2>
-
-                  <Accordion type="single" collapsible className="space-y-4">
-                    <AccordionItem
-                      value="faq-1"
-                      className="border border-primary/10 rounded-lg px-6 py-2 bg-black/20"
-                    >
-                      <AccordionTrigger className="text-white hover:text-primary text-left font-medium py-4">
-                        How does the funding process work?
-                      </AccordionTrigger>
-                      <AccordionContent className="text-white/80 pt-2 pb-6">
-                        Our funding process is simple: purchase a challenge,
-                        meet the profit target while following our risk rules,
-                        and get funded with our capital. You'll keep up to 80%
-                        of the profits you generate while trading with our
-                        money.
-                      </AccordionContent>
-                    </AccordionItem>
-
-                    <AccordionItem
-                      value="faq-2"
-                      className="border border-primary/10 rounded-lg px-6 py-2 bg-black/20"
-                    >
-                      <AccordionTrigger className="text-white hover:text-primary text-left font-medium py-4">
-                        What sports can I trade?
-                      </AccordionTrigger>
-                      <AccordionContent className="text-white/80 pt-2 pb-6">
-                        You can trade on any major sports including NBA, NFL,
-                        MLB, NHL, soccer (Premier League, La Liga, etc.),
-                        tennis, UFC/MMA, golf, and more. We provide real-time
-                        odds access to all these markets.
-                      </AccordionContent>
-                    </AccordionItem>
-
-                    <AccordionItem
-                      value="faq-3"
-                      className="border border-primary/10 rounded-lg px-6 py-2 bg-black/20"
-                    >
-                      <AccordionTrigger className="text-white hover:text-primary text-left font-medium py-4">
-                        How soon can I get funded?
-                      </AccordionTrigger>
-                      <AccordionContent className="text-white/80 pt-2 pb-6">
-                        You can get funded as soon as you complete the challenge
-                        requirements. This includes reaching the profit target
-                        (33%), trading for the minimum number of days (5), and
-                        maintaining proper risk management throughout the
-                        challenge.
-                      </AccordionContent>
-                    </AccordionItem>
-                  </Accordion>
-                </motion.div>
-
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.1 }}
-                  className="bg-[#121212]/70 backdrop-blur-sm border border-primary/20 rounded-lg p-6 md:p-8"
-                >
-                  <h2 className="text-2xl font-bold mb-6 text-white">
-                    Challenge Rules
-                  </h2>
-
-                  <Accordion type="single" collapsible className="space-y-4">
-                    <AccordionItem
-                      value="faq-4"
-                      className="border border-primary/10 rounded-lg px-6 py-2 bg-black/20"
-                    >
-                      <AccordionTrigger className="text-white hover:text-primary text-left font-medium py-4">
-                        What are the daily drawdown limits?
-                      </AccordionTrigger>
-                      <AccordionContent className="text-white/80 pt-2 pb-6">
-                        The daily drawdown limit is typically 15% of your
-                        account balance. This means if your account drops by 15%
-                        or more from the starting balance of the day, trading
-                        will be restricted for the remainder of that day.
-                      </AccordionContent>
-                    </AccordionItem>
-
-                    <AccordionItem
-                      value="faq-5"
-                      className="border border-primary/10 rounded-lg px-6 py-2 bg-black/20"
-                    >
-                      <AccordionTrigger className="text-white hover:text-primary text-left font-medium py-4">
-                        What is the maximum overall drawdown?
-                      </AccordionTrigger>
-                      <AccordionContent className="text-white/80 pt-2 pb-6">
-                        The maximum overall drawdown is typically 20% of your
-                        starting account balance. If your account drops by 20%
-                        or more at any point during the challenge, the challenge
-                        will be considered failed.
-                      </AccordionContent>
-                    </AccordionItem>
-
-                    <AccordionItem
-                      value="faq-6"
-                      className="border border-primary/10 rounded-lg px-6 py-2 bg-black/20"
-                    >
-                      <AccordionTrigger className="text-white hover:text-primary text-left font-medium py-4">
-                        Can I place picks on weekends?
-                      </AccordionTrigger>
-                      <AccordionContent className="text-white/80 pt-2 pb-6">
-                        Yes, you can on weekends as long as there are sporting
-                        events available. Many sports like soccer, NBA, NFL, and
-                        UFC have weekend games which provide plenty of
-                        opportunities.
-                      </AccordionContent>
-                    </AccordionItem>
-                  </Accordion>
-                </motion.div>
-
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.2 }}
-                  className="bg-[#121212]/70 backdrop-blur-sm border border-primary/20 rounded-lg p-6 md:p-8"
-                >
-                  <h2 className="text-2xl font-bold mb-6 text-white">
-                    Payouts & Scaling
-                  </h2>
-
-                  <Accordion type="single" collapsible className="space-y-4">
-                    <AccordionItem
-                      value="faq-7"
-                      className="border border-primary/10 rounded-lg px-6 py-2 bg-black/20"
-                    >
-                      <AccordionTrigger className="text-white hover:text-primary text-left font-medium py-4">
-                        How often do I receive payouts
-                      </AccordionTrigger>
-                      <AccordionContent className="text-white/80 pt-2 pb-6">
-                        Payouts are typically processed bi-weekly.
-                      </AccordionContent>
-                    </AccordionItem>
-
-                    <AccordionItem
-                      value="faq-8"
-                      className="border border-primary/10 rounded-lg px-6 py-2 bg-black/20"
-                    >
-                      <AccordionTrigger className="text-white hover:text-primary text-left font-medium py-4">
-                        Can I scale my account?
-                      </AccordionTrigger>
-                      <AccordionContent className="text-white/80 pt-2 pb-6">
-                        Yes, after demonstrating consistent profitability with
-                        your funded account, you can qualify for our scaling
-                        program. This allows you to increase your account size
-                        and potential profits over time.
-                      </AccordionContent>
-                    </AccordionItem>
-
-                    <AccordionItem
-                      value="faq-9"
-                      className="border border-primary/10 rounded-lg px-6 py-2 bg-black/20"
-                    >
-                      <AccordionTrigger className="text-white hover:text-primary text-left font-medium py-4">
-                        What payment methods do you accept?
-                      </AccordionTrigger>
-                      <AccordionContent className="text-white/80 pt-2 pb-6">
-                        We accept credit/debit cards, PayPal, and various
-                        cryptocurrency options for purchasing challenges. For
-                        payouts, we offer bank transfers, PayPal, and
-                        cryptocurrency payments.
-                      </AccordionContent>
-                    </AccordionItem>
-                  </Accordion>
-                </motion.div>
-              </div>
-            )}
-          </div>
-        )}
+                    <AccordionTrigger className="text-white hover:text-primary text-left font-medium py-4">
+                      {faq.question}
+                    </AccordionTrigger>
+                    <AccordionContent className="text-white/80 pt-2 pb-6">
+                      <div
+                        dangerouslySetInnerHTML={{ __html: faq.answer }}
+                      />
+                    </AccordionContent>
+                  </AccordionItem>
+                ))}
+              </Accordion>
+            </motion.div>
+          ))}
+        </div>
       </div>
     </Layout>
   );

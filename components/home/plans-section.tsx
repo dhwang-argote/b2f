@@ -1,12 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { createClient, User } from "@supabase/supabase-js";
 import { useToast } from "@/hooks/use-toast";
-
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string;
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string;
-
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 const accountSizes = ["2k", "5k", "10k", "25k", "50k"];
 
@@ -22,81 +16,148 @@ type Step = {
   timeLimit?: string;
 };
 
-type Challenge = {
-  id: string;
-  user_id: string;
-  account_size: string;
-  challenge_type: string;
-  fee: number;
-  steps: Step[];
-  status: string;
-  current_step: number;
-  progress: number;
-  activated_at: string;
-};
-
 const PlansSection = () => {
   const [plansData, setPlansData] = useState({});
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchPlansData();
+    // Dummy data for plans
+    const dummyPlansData = {
+      "2k": {
+        accountSize: 2000,
+        challenges: {
+          "3step": {
+            fee: 1000, // 10 USD
+            steps: [
+              { label: "Step 1", minPicks: 5, minPickAmount: 10, maxPickAmount: 100, maxLoss: 100, maxDailyLoss: 50, profitTarget: 200, timeLimit: "30 days" },
+              { label: "Step 2", minPicks: 5, minPickAmount: 10, maxPickAmount: 100, maxLoss: 100, maxDailyLoss: 50, profitTarget: 200, timeLimit: "30 days" },
+              { label: "Step 3", minPicks: 5, minPickAmount: 10, maxPickAmount: 100, maxLoss: 100, maxDailyLoss: 50, profitTarget: 200, timeLimit: "30 days" },
+            ],
+          },
+          "2step": {
+            fee: 1500, // 15 USD
+            steps: [
+              { label: "Step 1", minPicks: 5, minPickAmount: 10, maxPickAmount: 100, maxLoss: 150, maxDailyLoss: 75, profitTarget: 300, timeLimit: "30 days" },
+              { label: "Step 2", minPicks: 5, minPickAmount: 10, maxPickAmount: 100, maxLoss: 150, maxDailyLoss: 75, profitTarget: 300, timeLimit: "30 days" },
+            ],
+          },
+          "1step": {
+            fee: 2000, // 20 USD
+            steps: [
+              { label: "Funded", minPicks: 5, minPickAmount: 10, maxPickAmount: 100, maxLoss: 200, maxDailyLoss: 100, profitTarget: 400, timeLimit: "Unlimited" },
+            ],
+          },
+        },
+      },
+      "5k": {
+        accountSize: 5000,
+        challenges: {
+          "3step": {
+            fee: 2000, // 20 USD
+            steps: [
+              { label: "Step 1", minPicks: 5, minPickAmount: 20, maxPickAmount: 200, maxLoss: 250, maxDailyLoss: 125, profitTarget: 500, timeLimit: "30 days" },
+              { label: "Step 2", minPicks: 5, minPickAmount: 20, maxPickAmount: 200, maxLoss: 250, maxDailyLoss: 125, profitTarget: 500, timeLimit: "30 days" },
+              { label: "Step 3", minPicks: 5, minPickAmount: 20, maxPickAmount: 200, maxLoss: 250, maxDailyLoss: 125, profitTarget: 500, timeLimit: "30 days" },
+            ],
+          },
+          "2step": {
+            fee: 3000, // 30 USD
+            steps: [
+              { label: "Step 1", minPicks: 5, minPickAmount: 20, maxPickAmount: 200, maxLoss: 375, maxDailyLoss: 187, profitTarget: 750, timeLimit: "30 days" },
+              { label: "Step 2", minPicks: 5, minPickAmount: 20, maxPickAmount: 200, maxLoss: 375, maxDailyLoss: 187, profitTarget: 750, timeLimit: "30 days" },
+            ],
+          },
+          "1step": {
+            fee: 4000, // 40 USD
+            steps: [
+              { label: "Funded", minPicks: 5, minPickAmount: 20, maxPickAmount: 200, maxLoss: 500, maxDailyLoss: 250, profitTarget: 1000, timeLimit: "Unlimited" },
+            ],
+          },
+        },
+      },
+      "10k": {
+        accountSize: 10000,
+        challenges: {
+          "3step": {
+            fee: 3500, // 35 USD
+            steps: [
+              { label: "Step 1", minPicks: 5, minPickAmount: 40, maxPickAmount: 400, maxLoss: 500, maxDailyLoss: 250, profitTarget: 1000, timeLimit: "30 days" },
+              { label: "Step 2", minPicks: 5, minPickAmount: 40, maxPickAmount: 400, maxLoss: 500, maxDailyLoss: 250, profitTarget: 1000, timeLimit: "30 days" },
+              { label: "Step 3", minPicks: 5, minPickAmount: 40, maxPickAmount: 400, maxLoss: 500, maxDailyLoss: 250, profitTarget: 1000, timeLimit: "30 days" },
+            ],
+          },
+          "2step": {
+            fee: 5000, // 50 USD
+            steps: [
+              { label: "Step 1", minPicks: 5, minPickAmount: 40, maxPickAmount: 400, maxLoss: 750, maxDailyLoss: 375, profitTarget: 1500, timeLimit: "30 days" },
+              { label: "Step 2", minPicks: 5, minPickAmount: 40, maxPickAmount: 400, maxLoss: 750, maxDailyLoss: 375, profitTarget: 1500, timeLimit: "30 days" },
+            ],
+          },
+          "1step": {
+            fee: 7000, // 70 USD
+            steps: [
+              { label: "Funded", minPicks: 5, minPickAmount: 40, maxPickAmount: 400, maxLoss: 1000, maxDailyLoss: 500, profitTarget: 2000, timeLimit: "Unlimited" },
+            ],
+          },
+        },
+      },
+      "25k": {
+        accountSize: 25000,
+        challenges: {
+          "3step": {
+            fee: 7000, // 70 USD
+            steps: [
+              { label: "Step 1", minPicks: 5, minPickAmount: 100, maxPickAmount: 1000, maxLoss: 1250, maxDailyLoss: 625, profitTarget: 2500, timeLimit: "30 days" },
+              { label: "Step 2", minPicks: 5, minPickAmount: 100, maxPickAmount: 1000, maxLoss: 1250, maxDailyLoss: 625, profitTarget: 2500, timeLimit: "30 days" },
+              { label: "Step 3", minPicks: 5, minPickAmount: 100, maxPickAmount: 1000, maxLoss: 1250, maxDailyLoss: 625, profitTarget: 2500, timeLimit: "30 days" },
+            ],
+          },
+          "2step": {
+            fee: 10000, // 100 USD
+            steps: [
+              { label: "Step 1", minPicks: 5, minPickAmount: 100, maxPickAmount: 1000, maxLoss: 1875, maxDailyLoss: 937, profitTarget: 3750, timeLimit: "30 days" },
+              { label: "Step 2", minPicks: 5, minPickAmount: 100, maxPickAmount: 1000, maxLoss: 1875, maxDailyLoss: 937, profitTarget: 3750, timeLimit: "30 days" },
+            ],
+          },
+          "1step": {
+            fee: 14000, // 140 USD
+            steps: [
+              { label: "Funded", minPicks: 5, minPickAmount: 100, maxPickAmount: 1000, maxLoss: 2500, maxDailyLoss: 1250, profitTarget: 5000, timeLimit: "Unlimited" },
+            ],
+          },
+        },
+      },
+      "50k": {
+        accountSize: 50000,
+        challenges: {
+          "3step": {
+            fee: 12000, // 120 USD
+            steps: [
+              { label: "Step 1", minPicks: 5, minPickAmount: 200, maxPickAmount: 2000, maxLoss: 2500, maxDailyLoss: 1250, profitTarget: 5000, timeLimit: "30 days" },
+              { label: "Step 2", minPicks: 5, minPickAmount: 200, maxPickAmount: 2000, maxLoss: 2500, maxDailyLoss: 1250, profitTarget: 5000, timeLimit: "30 days" },
+              { label: "Step 3", minPicks: 5, minPickAmount: 200, maxPickAmount: 2000, maxLoss: 2500, maxDailyLoss: 1250, profitTarget: 5000, timeLimit: "30 days" },
+            ],
+          },
+          "2step": {
+            fee: 18000, // 180 USD
+            steps: [
+              { label: "Step 1", minPicks: 5, minPickAmount: 200, maxPickAmount: 2000, maxLoss: 3750, maxDailyLoss: 1875, profitTarget: 7500, timeLimit: "30 days" },
+              { label: "Step 2", minPicks: 5, minPickAmount: 200, maxPickAmount: 2000, maxLoss: 3750, maxDailyLoss: 1875, profitTarget: 7500, timeLimit: "30 days" },
+            ],
+          },
+          "1step": {
+            fee: 25000, // 250 USD
+            steps: [
+              { label: "Funded", minPicks: 5, minPickAmount: 200, maxPickAmount: 2000, maxLoss: 5000, maxDailyLoss: 2500, profitTarget: 10000, timeLimit: "Unlimited" },
+            ],
+          },
+        },
+      },
+    };
+
+    setPlansData(dummyPlansData);
+    setLoading(false);
   }, []);
-
-  const fetchPlansData = async () => {
-    try {
-      const { data, error } = await supabase.from("plans").select("*");
-
-      if (error) {
-        console.error("Error fetching plans:", error);
-        return;
-      }
-
-      // Transform the data into the same structure as the original hardcoded data
-      const transformedData: {
-        [accountSize: string]: {
-          accountSize: number;
-          challenges: {
-            [challengeType: string]: {
-              fee: number;
-              steps: Step[];
-            };
-          };
-        };
-      } = {};
-
-      data.forEach((plan: any) => {
-        if (!transformedData[plan.account_size]) {
-          transformedData[plan.account_size] = {
-            accountSize: parseInt(plan.account_size.replace("k", "000")),
-            challenges: {},
-          };
-        }
-
-        transformedData[plan.account_size].challenges[plan.challenge_type] = {
-          fee: plan.fee,
-          steps: plan.steps,
-        };
-      });
-
-      setPlansData(transformedData);
-    } catch (error) {
-      console.error("Error:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  if (loading) {
-    return (
-      <section
-        id="plans"
-        className="bg-black py-16 md:py-24 min-h-screen flex items-center justify-center"
-      >
-        <div className="text-white text-xl">Loading plans...</div>
-      </section>
-    );
-  }
 
   return (
     <section
@@ -195,8 +256,6 @@ const PlanCard = ({
   const [selectedAccountSize, setSelectedAccountSize] = useState("2k");
   const [selectedStepIndex, setSelectedStepIndex] = useState(0);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [activating, setActivating] = useState(false);
-  const [paying, setPaying] = useState(false);
   const { toast } = useToast();
   // guestToken/modal removed — we auto-redirect guests to registration and store token in localStorage
 
@@ -411,200 +470,12 @@ const PlanCard = ({
     effectivePlanData?.steps?.[0];
 
   const handleActivatePlan = async () => {
-    if (!effectiveStep || !effectivePlanData?.fee) return;
-
-    setActivating(true);
-
-    try {
-      // Get current user (may be null for guest purchases)
-      const storedUser = localStorage.getItem("b2f_user");
-      const userObj: User | null = storedUser ? JSON.parse(storedUser) : null;
-
-      // Determine planId fallback for guest purchase if frontend doesn't have exact plan id
-      const guestPlanId = planIdFromData(effectiveAccountSize);
-
-      // If user is logged in, check if they have enough balance
-      let profile: any = null;
-      if (userObj) {
-        const { data: profileData, error: profileFetchError } = await supabase
-          .from("profiles")
-          .select("balance, total_challenges, active_plans")
-          .eq("id", userObj.id)
-          .single();
-
-        if (profileFetchError || !profileData) {
-          console.error("Error fetching profile:", profileFetchError);
-          toast({
-            title: "Profile Error",
-            description: "Could not fetch your profile. Please try again.",
-            variant: "destructive",
-          });
-          setActivating(false);
-          return;
-        }
-
-        profile = profileData;
-
-        if (profile.balance < effectivePlanData.fee) {
-          toast({
-            title: "Insufficient Balance",
-            description: "Please add funds to your account.",
-            variant: "destructive",
-          });
-          setActivating(false);
-          return;
-        }
-      }
-
-      // perform Bitcoin payment verification
-      setPaying(true);
-      const paymentResult = await performBitcoinPayment(effectivePlanData.fee);
-      setPaying(false);
-
-      // paymentResult is an object { success: boolean, txHash?, paymentMethod?, btcAmount? }
-      if (!paymentResult || paymentResult.success !== true) {
-        // Payment failed or was rejected. Stop activation.
-        setActivating(false);
-        return;
-      }
-      // If user is not logged in, create guest purchase and show token
-      if (!userObj) {
-        try {
-          const resp = await fetch('/api/guest/purchase', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              planId: guestPlanId,
-              amount: effectivePlanData.fee,
-              txHash: paymentResult.txHash || null,
-              paymentMethod: paymentResult.paymentMethod || 'bitcoin',
-            }),
-          });
-
-          if (!resp.ok) {
-            const err = await resp.json().catch(() => ({ message: 'Unknown error' }));
-            console.error('Guest purchase failed:', err);
-            toast({ title: 'Purchase failed', description: err.message || 'Could not create purchase', variant: 'destructive' });
-            setActivating(false);
-            return;
-          }
-
-          const data = await resp.json();
-          // Save token automatically and redirect guest to registration where the draft will auto-include it
-          try {
-            // Save both purchase token and transaction id as fallbacks. Some DBs may not persist purchase_token
-            // so transactionId is a reliable identifier to claim later.
-            if (data.purchaseToken) localStorage.setItem('b2f_purchase_token', data.purchaseToken);
-            if (data.transactionId) localStorage.setItem('b2f_transaction_id', data.transactionId);
-          } catch (e) {
-            console.warn('Failed to save purchase identifiers to localStorage', e);
-          }
-
-          toast({ title: 'Purchase created', description: 'Redirecting to registration...', variant: 'default' });
-          // Redirect to registration page so user can complete signup; registration form auto-injects token from localStorage
-          window.location.href = '/register';
-        } catch (err) {
-          console.error('Guest purchase error:', err);
-          toast({ title: 'Purchase failed', description: 'Could not create purchase', variant: 'destructive' });
-        } finally {
-          setActivating(false);
-        }
-
-        return; // guest flow ends here — user will complete registration
-      }
-
-      // Create the challenge record
-      const { data: challenge, error: challengeError } = await supabase
-        .from("user_challenges")
-        .insert({
-          user_id: userObj.id,
-          account_size: effectiveAccountSize,
-          challenge_type: challengeType,
-          fee: effectivePlanData.fee,
-          steps: effectivePlanData.steps,
-          status: "active",
-          current_step: 0,
-          progress: 0,
-          activated_at: new Date().toISOString(),
-        })
-        .select()
-        .single();
-
-      if (challengeError || !challenge) {
-        console.error("Error creating challenge:", challengeError);
-        toast({
-          title: "Error Activating Plan",
-          description: "Please try again.",
-          variant: "destructive",
-        });
-        setActivating(false);
-        return;
-      }
-
-      // Create transaction record (persist Bitcoin payment info in description)
-      const bitcoinInfo = paymentResult.btcAmount
-        ? ` (${paymentResult.btcAmount.toFixed(8)} BTC)`
-        : "";
-      const { error: transactionError } = await supabase
-        .from("transactions")
-        .insert({
-          user_id: userObj.id,
-          type: "purchase",
-          amount: -effectivePlanData.fee, // Negative amount for deduction
-          description: `Activated ${effectiveAccountSize} ${challengeType} challenge via Bitcoin payment${bitcoinInfo}`,
-          related_entity: "challenge",
-          related_entity_id: challenge.id,
-          status: "completed",
-          tx_hash: paymentResult.txHash ?? null,
-        });
-
-      if (transactionError) {
-        console.error("Error creating transaction:", transactionError);
-      }
-
-      // Update user profile
-      const { error: profileError } = await supabase
-        .from("profiles")
-        .update({
-          balance: profile.balance - effectivePlanData.fee,
-          total_challenges: (profile.total_challenges || 0) + 1,
-          active_plans: [...(profile.active_plans || []), challenge.id],
-        })
-        .eq("id", userObj.id);
-
-      if (profileError) {
-        console.error("Error updating profile:", profileError);
-      }
-
-      toast({
-        title: "Plan Activated",
-        description: "You can view your progress in your profile.",
-        variant: "default",
-      });
-    } catch (error) {
-      console.error("Error activating plan:", error);
-      toast({
-        title: "Error Activating Plan",
-        description: "Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setActivating(false);
-    }
+    toast({
+      title: "Feature Disabled",
+      description: "Plan activation is disabled in this demo.",
+      variant: "default",
+    });
   };
-
-  // Helper to map account size string like '2k' to a plan id if needed (fallback placeholder)
-  function planIdFromData(accountSizeStr: string) {
-    // In this implementation the frontend doesn't reliably know plan ids; backend can accept planId or related_entity_id
-    // Use a simple heuristic / fallback: map common sizes to assumed plan ids (adjust if your DB differs)
-    if (accountSizeStr === '2k') return 1;
-    if (accountSizeStr === '5k') return 2;
-    if (accountSizeStr === '10k') return 3;
-    if (accountSizeStr === '25k') return 4;
-    if (accountSizeStr === '50k') return 5;
-    return 1;
-  }
-
 
   return (
     <>
@@ -778,21 +649,10 @@ const PlanCard = ({
           {/* Activate Button */}
           <button
             onClick={handleActivatePlan}
-            disabled={
-              !effectiveStep || !effectivePlanData?.fee || activating || paying
-            }
-            className={`w-full font-bold py-3 rounded-lg transition-all duration-200 transform hover:scale-[1.02] mt-auto ${effectiveStep && effectivePlanData?.fee && !activating && !paying
-              ? "bg-primary hover:bg-primary/90 text-white"
-              : "bg-gray-600 text-gray-400 cursor-not-allowed"
-              }`}
+            disabled={true}
+            className={`w-full font-bold py-3 rounded-lg transition-all duration-200 transform hover:scale-[1.02] mt-auto bg-gray-600 text-gray-400 cursor-not-allowed`}
           >
-            {paying
-              ? "Processing Bitcoin Payment..."
-              : activating
-                ? "Activating..."
-                : effectiveStep && effectivePlanData?.fee
-                  ? "Activate"
-                  : "Not Available"}
+            Feature Disabled
           </button>
         </div>
       </motion.div>

@@ -2,7 +2,7 @@ import 'dotenv/config';
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { serveStatic, log } from "./runtime";
-import "./db-init"; // Initialize database tables
+
 
 const app = express();
 app.use(express.json());

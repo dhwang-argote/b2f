@@ -1,7 +1,6 @@
 import type { Express, Request, Response } from "express";
 import cors from "cors";
 import { createServer, type Server } from "http";
-import { storage } from "./storage";
 import axios from "axios";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -12,49 +11,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
     // API routes
     app.get("/api/health", (req, res) => {
       res.json({ status: "ok" });
-    });
-
-    // Plans routes
-    app.get("/api/plans", async (req, res) => {
-      try {
-        const plans = await storage.getPlans();
-        res.json(plans);
-      } catch (error) {
-        console.error("Error fetching plans:", error);
-        res.status(500).json({ message: "Failed to fetch plans" });
-      }
-    });
-
-    app.get("/api/plans/:id", async (req, res) => {
-      try {
-        const plan = await storage.getPlan(parseInt(req.params.id));
-        if (!plan) {
-          return res.status(404).json({ message: "Plan not found" });
-        }
-        res.json(plan);
-      } catch (error) {
-        res.status(500).json({ message: "Failed to fetch plan" });
-      }
-    });
-
-    // FAQs route
-    app.get("/api/faqs", async (req, res) => {
-      try {
-        const faqs = await storage.getFAQs();
-        res.json(faqs);
-      } catch (error) {
-        res.status(500).json({ message: "Failed to fetch FAQs" });
-      }
-    });
-
-    // Testimonials route
-    app.get("/api/testimonials", async (req, res) => {
-      try {
-        const testimonials = await storage.getTestimonials();
-        res.json(testimonials);
-      } catch (error) {
-        res.status(500).json({ message: "Failed to fetch testimonials" });
-      }
     });
 
     // Proxy endpoint with Shark Picks AI logic
@@ -96,9 +52,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         if (upstream && upstream.error_code === 'UNKNOWN_SPORT') {
           try {
             const apiKey = process.env.ODDS_API_KEY;
-            const sportsResp = await axios.get('https://api.the-odds-api.com/v4/sports', {
-              params: { apiKey }
-            });
+            const sportsResp = await axios.get('https://api.the-odds-api.com/v4/sports', { params: { apiKey } });
             const available = sportsResp.data;
             return res.status(400).json({
               error: 'Unknown sport slug',
