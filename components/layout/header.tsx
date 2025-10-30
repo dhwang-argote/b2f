@@ -2,47 +2,13 @@ import { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { IconMenu } from "@/components/icons";
-import { FiUser, FiLogOut } from "react-icons/fi";
 import MobileMenu from "./mobile-menu";
-import { useAuth } from "@/hooks/useAuth";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import headerIcon from "../../assets/b2f/logo-main.png";
 
 const Header = () => {
-  const [showDropdown, setShowDropdown] = useState(false);
-
-  const handleProfileClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    navigate("/profile");
-  };
-
-  const handleLogout = async () => {
-    await fetch("/api/auth/logout", { method: "POST", credentials: "include" });
-    setSessionUser(null);
-    setIsAuthenticated(false);
-    setShowDropdown(false);
-    navigate("/");
-  };
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [location, navigate] = useLocation();
-  const [sessionUser, setSessionUser] = useState(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  useEffect(() => {
-    // Fetch session info from backend
-    fetch("/api/auth/session", { credentials: "include" })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.authenticated && data.user) {
-          setSessionUser(data.user);
-          setIsAuthenticated(true);
-        } else {
-          setSessionUser(null);
-          setIsAuthenticated(false);
-        }
-      });
-  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -97,80 +63,12 @@ const Header = () => {
               </a>
               <NavLink href="/odds" label="Live Odds" />
               <NavLink href="/leaderboard" label="Leaderboard" />
-              {isAuthenticated && (
-                <NavLink href="/funded-account" label="Funded" />
-              )}
               <NavLink href="/faq" label="FAQ" />
               <NavLink href="/educational-center" label="Education" />
             </div>
 
-            {/* Auth Buttons */}
+            {/* Mobile menu toggle */}
             <div className="flex items-center space-x-3">
-              <>
-                {isAuthenticated && sessionUser ? (
-                  <div className="relative">
-                    <div
-                      className="flex items-center cursor-pointer"
-                      onClick={() => setShowDropdown((prev) => !prev)}
-                      tabIndex={0}
-                      role="button"
-                      aria-label="Open profile menu"
-                    >
-                      {/* Profile Avatar (use profilePicture if available, else fallback to first letter of name/email) */}
-                      <div className="mr-2">
-                        <Avatar>
-                          {sessionUser.profilePicture ? (
-                            <AvatarImage
-                              src={sessionUser.profilePicture}
-                              alt={sessionUser.username ?? "Profile"}
-                            />
-                          ) : (
-                            <AvatarFallback>
-                              {sessionUser.firstName?.[0] ??
-                                sessionUser.username?.[0] ??
-                                sessionUser.email?.[0]?.toUpperCase() ??
-                                "U"}
-                            </AvatarFallback>
-                          )}
-                        </Avatar>
-                      </div>
-                      <span className="hidden sm:inline text-white font-medium">
-                        {sessionUser.firstName ||
-                          sessionUser.username ||
-                          sessionUser.email ||
-                          "Profile"}
-                      </span>
-                    </div>
-                    {showDropdown && (
-                      <div className="absolute right-0 mt-2 w-44 bg-[#222] border border-primary/30 rounded-lg shadow-lg z-50">
-                        <button
-                          onClick={handleProfileClick}
-                          className="flex items-center gap-2 w-full text-left px-4 py-2 text-white hover:bg-primary/10"
-                        >
-                          <FiUser className="text-lg" />
-                          Profile
-                        </button>
-                        <button
-                          className="flex items-center gap-2 w-full text-left px-4 py-2 text-white hover:bg-primary/10"
-                          onClick={handleLogout}
-                        >
-                          <FiLogOut className="text-lg" />
-                          Logout
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                ) : (
-                  <Link href="/login">
-                    <Button
-                      variant="outline"
-                      className="inline-flex border-transparent text-primary hover:bg-primary/10 hover:text-primary transition-all"
-                    >
-                      Login
-                    </Button>
-                  </Link>
-                )}
-              </>
               <button
                 type="button"
                 className="md:hidden p-2 rounded-md text-primary hover:text-white focus:outline-none"

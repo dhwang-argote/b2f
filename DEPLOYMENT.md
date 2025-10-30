@@ -18,7 +18,6 @@ Since the codebase is large, here's the streamlined approach to get your code on
 ├── postcss.config.js        # PostCSS config
 ├── components.json          # shadcn/ui config
 ├── README.md                # Documentation
-├── .gitignore               # Git ignore rules
 └── DEPLOYMENT.md            # This file
 ```
 
@@ -27,12 +26,9 @@ Since the codebase is large, here's the streamlined approach to get your code on
 - `attached_assets/` (development files only)
 - `.env` files (contains secrets)
 - `package-lock.json` (auto-generated)
-- `.replit` (Replit-specific)
 - `dist/` (build output)
 
 ### Option 2: Use Git Commands (If available)
-
-If you have git access in Replit:
 
 ```bash
 # Initialize git
@@ -96,7 +92,6 @@ This reduces upload size from ~500MB to ~50MB.
 - **Vercel**: Easy deployment with GitHub integration
 - **Netlify**: Good for static sites with serverless functions
 - **Railway**: Full-stack apps with database
-- **Replit Deployments**: Keep using current setup
 
 ### GitHub Repository Structure
 
