@@ -3,11 +3,9 @@ import react from "@vitejs/plugin-react";
 import path from "path";
 
 export default defineConfig({
-  plugins: [
-    react(),
-  ],
-  
-  resolve: {
+  css: {
+    postcss: './postcss.config.cjs',
+  },
     alias: {
       "@": path.resolve(import.meta.dirname, "."),
       "@shared": path.resolve(import.meta.dirname, "shared"),
