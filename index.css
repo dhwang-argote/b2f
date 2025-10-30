@@ -85,19 +85,16 @@
   
   /* Card Glow Effects */
   .card-glow {
-    background: linear-gradient(145deg, 
-      hsla(222, 47%, 11%, 0.8), 
-      hsla(217, 32%, 17%, 0.6)
-    );
+    background: linear-gradient(145deg, hsla(222, 47%, 11%, 0.8), hsla(217, 32%, 17%, 0.6));
     backdrop-filter: blur(10px);
     border: 1px solid hsla(var(--neon-blue), 0.2);
-    box-shadow: 0 8px 32px hsla(0, 0%, 0%, 0.3), 0 0 0 1px hsla(var(--neon-blue), 0.1), inset 0 1px 0 hsla(0, 0%, 100%, 0.05);
+
     transition: all 0.3s ease;
   }
   
   .card-glow:hover {
     border-color: hsla(var(--neon-blue), 0.4);
-    box-shadow: 0 12px 48px hsla(0, 0%, 0%, 0.4), 0 0 0 1px hsla(var(--neon-blue), 0.2), 0 0 20px hsla(var(--neon-blue), 0.1), inset 0 1px 0 hsla(0, 0%, 100%, 0.1);
+
     transform: translateY(-4px);
   }
   
