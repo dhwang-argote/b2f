@@ -1,10 +1,10 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
-import path from "path";
+const { defineConfig } = require("vite");
+const react = require("@vitejs/plugin-react");
+const path = require("path");
 
 const projectRoot = process.cwd();
 
-export default defineConfig({
+module.exports = defineConfig({
   plugins: [react()],
 
   resolve: {
@@ -14,7 +14,6 @@ export default defineConfig({
       "@assets": path.resolve(projectRoot, "assets"),
     },
   },
-  // Use default root (project root)
   build: {
     outDir: path.resolve(projectRoot, "dist/public"),
     emptyOutDir: true,
