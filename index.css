@@ -86,21 +86,13 @@
       hsl(var(--primary)), 
       hsl(187, 100%, 50%)
     );
-    box-shadow: 
-      0 0 20px hsla(var(--neon-blue), 0.4),
-      0 0 40px hsla(var(--neon-blue), 0.2),
-      0 0 60px hsla(var(--neon-blue), 0.1),
-      inset 0 1px 0 hsla(0, 0%, 100%, 0.2);
+    box-shadow: 0 0 20px hsla(var(--neon-blue), 0.4), 0 0 40px hsla(var(--neon-blue), 0.2), 0 0 60px hsla(var(--neon-blue), 0.1), inset 0 1px 0 hsla(0, 0%, 100%, 0.2);
     border: 1px solid hsl(var(--primary));
     transition: all 0.3s ease;
   }
   
   .btn-neon:hover {
-    box-shadow: 
-      0 0 30px hsla(var(--neon-blue), 0.6),
-      0 0 50px hsla(var(--neon-blue), 0.4),
-      0 0 80px hsla(var(--neon-blue), 0.2),
-      inset 0 1px 0 hsla(0, 0%, 100%, 0.3);
+    box-shadow: 0 0 30px hsla(var(--neon-blue), 0.6), 0 0 50px hsla(var(--neon-blue), 0.4), 0 0 80px hsla(var(--neon-blue), 0.2), inset 0 1px 0 hsla(0, 0%, 100%, 0.3);
     transform: translateY(-2px);
   }
   
