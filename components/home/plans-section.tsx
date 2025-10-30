@@ -1,5 +1,12 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import { createClient, User } from "@supabase/supabase-js";
+import { useToast } from "@/hooks/use-toast";
+
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string;
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string;
+
+const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 const accountSizes = ["2k", "5k", "10k", "25k", "50k"];
 
@@ -15,160 +22,82 @@ type Step = {
   timeLimit?: string;
 };
 
-type PlanData = {
-  accountSize: number;
-  challenges: {
-    [challengeType: string]: {
-      fee: number;
-      steps: Step[];
-    };
-  };
-};
-
-const mockPlansData: { [accountSize: string]: PlanData } = {
-  "2k": {
-    accountSize: 2000,
-    challenges: {
-      "3step": {
-        fee: 99,
-        steps: [
-          { label: "Phase 1", minPicks: 5, minPickAmount: 10, maxPickAmount: 200, maxLoss: 100, profitTarget: 160, timeLimit: "30 Days" },
-          { label: "Phase 2", minPicks: 5, minPickAmount: 10, maxPickAmount: 200, maxLoss: 100, profitTarget: 100, timeLimit: "30 Days" },
-          { label: "Funded", minPicks: 0, minPickAmount: 0, maxPickAmount: 0, maxLoss: 0, profitTarget: 0, timeLimit: "Unlimited" },
-        ],
-      },
-      "2step": {
-        fee: 129,
-        steps: [
-          { label: "Phase 1", minPicks: 5, minPickAmount: 10, maxPickAmount: 250, maxLoss: 120, profitTarget: 200, timeLimit: "30 Days" },
-          { label: "Phase 2", minPicks: 5, minPickAmount: 10, maxPickAmount: 250, maxLoss: 120, profitTarget: 120, timeLimit: "30 Days" },
-          { label: "Funded", minPicks: 0, minPickAmount: 0, maxPickAmount: 0, maxLoss: 0, profitTarget: 0, timeLimit: "Unlimited" },
-        ],
-      },
-      "1step": {
-        fee: 149,
-        steps: [
-          { label: "Phase 1", minPicks: 5, minPickAmount: 10, maxPickAmount: 300, maxLoss: 150, profitTarget: 300, timeLimit: "30 Days" },
-          { label: "Funded", minPicks: 0, minPickAmount: 0, maxPickAmount: 0, maxLoss: 0, profitTarget: 0, timeLimit: "Unlimited" },
-        ],
-      },
-    },
-  },
-  "5k": {
-    accountSize: 5000,
-    challenges: {
-      "3step": {
-        fee: 199,
-        steps: [
-          { label: "Phase 1", minPicks: 5, minPickAmount: 25, maxPickAmount: 500, maxLoss: 250, profitTarget: 400, timeLimit: "30 Days" },
-          { label: "Phase 2", minPicks: 5, minPickAmount: 25, maxPickAmount: 500, maxLoss: 250, profitTarget: 250, timeLimit: "30 Days" },
-          { label: "Funded", minPicks: 0, minPickAmount: 0, maxPickAmount: 0, maxLoss: 0, profitTarget: 0, timeLimit: "Unlimited" },
-        ],
-      },
-      "2step": {
-        fee: 249,
-        steps: [
-          { label: "Phase 1", minPicks: 5, minPickAmount: 25, maxPickAmount: 600, maxLoss: 300, profitTarget: 500, timeLimit: "30 Days" },
-          { label: "Phase 2", minPicks: 5, minPickAmount: 25, maxPickAmount: 600, maxLoss: 300, profitTarget: 300, timeLimit: "30 Days" },
-          { label: "Funded", minPicks: 0, minPickAmount: 0, maxPickAmount: 0, maxLoss: 0, profitTarget: 0, timeLimit: "Unlimited" },
-        ],
-      },
-      "1step": {
-        fee: 299,
-        steps: [
-          { label: "Phase 1", minPicks: 5, minPickAmount: 25, maxPickAmount: 750, maxLoss: 375, profitTarget: 750, timeLimit: "30 Days" },
-          { label: "Funded", minPicks: 0, minPickAmount: 0, maxPickAmount: 0, maxLoss: 0, profitTarget: 0, timeLimit: "Unlimited" },
-        ],
-      },
-    },
-  },
-  "10k": {
-    accountSize: 10000,
-    challenges: {
-      "3step": {
-        fee: 349,
-        steps: [
-          { label: "Phase 1", minPicks: 5, minPickAmount: 50, maxPickAmount: 1000, maxLoss: 500, profitTarget: 800, timeLimit: "30 Days" },
-          { label: "Phase 2", minPicks: 5, minPickAmount: 50, maxPickAmount: 1000, maxLoss: 500, profitTarget: 500, timeLimit: "30 Days" },
-          { label: "Funded", minPicks: 0, minPickAmount: 0, maxPickAmount: 0, maxLoss: 0, profitTarget: 0, timeLimit: "Unlimited" },
-        ],
-      },
-      "2step": {
-        fee: 399,
-        steps: [
-          { label: "Phase 1", minPicks: 5, minPickAmount: 50, maxPickAmount: 1200, maxLoss: 600, profitTarget: 1000, timeLimit: "30 Days" },
-          { label: "Phase 2", minPicks: 5, minPickAmount: 50, maxPickAmount: 1200, maxLoss: 600, profitTarget: 600, timeLimit: "30 Days" },
-          { label: "Funded", minPicks: 0, minPickAmount: 0, maxPickAmount: 0, maxLoss: 0, profitTarget: 0, timeLimit: "Unlimited" },
-        ],
-      },
-      "1step": {
-        fee: 449,
-        steps: [
-          { label: "Phase 1", minPicks: 5, minPickAmount: 50, maxPickAmount: 1500, maxLoss: 750, profitTarget: 1500, timeLimit: "30 Days" },
-          { label: "Funded", minPicks: 0, minPickAmount: 0, maxPickAmount: 0, maxLoss: 0, profitTarget: 0, timeLimit: "Unlimited" },
-        ],
-      },
-    },
-  },
-  "25k": {
-    accountSize: 25000,
-    challenges: {
-      "3step": {
-        fee: 599,
-        steps: [
-          { label: "Phase 1", minPicks: 5, minPickAmount: 125, maxPickAmount: 2500, maxLoss: 1250, profitTarget: 2000, timeLimit: "30 Days" },
-          { label: "Phase 2", minPicks: 5, minPickAmount: 125, maxPickAmount: 2500, maxLoss: 1250, profitTarget: 1250, timeLimit: "30 Days" },
-          { label: "Funded", minPicks: 0, minPickAmount: 0, maxPickAmount: 0, maxLoss: 0, profitTarget: 0, timeLimit: "Unlimited" },
-        ],
-      },
-      "2step": {
-        fee: 699,
-        steps: [
-          { label: "Phase 1", minPicks: 5, minPickAmount: 125, maxPickAmount: 3000, maxLoss: 1500, profitTarget: 2500, timeLimit: "30 Days" },
-          { label: "Phase 2", minPicks: 5, minPickAmount: 125, maxPickAmount: 3000, maxLoss: 1500, profitTarget: 1500, timeLimit: "30 Days" },
-          { label: "Funded", minPicks: 0, minPickAmount: 0, maxPickAmount: 0, maxLoss: 0, profitTarget: 0, timeLimit: "Unlimited" },
-        ],
-      },
-      "1step": {
-        fee: 799,
-        steps: [
-          { label: "Phase 1", minPicks: 5, minPickAmount: 125, maxPickAmount: 3750, maxLoss: 1875, profitTarget: 3750, timeLimit: "30 Days" },
-          { label: "Funded", minPicks: 0, minPickAmount: 0, maxPickAmount: 0, maxLoss: 0, profitTarget: 0, timeLimit: "Unlimited" },
-        ],
-      },
-    },
-  },
-  "50k": {
-    accountSize: 50000,
-    challenges: {
-      "3step": {
-        fee: 999,
-        steps: [
-          { label: "Phase 1", minPicks: 5, minPickAmount: 250, maxPickAmount: 5000, maxLoss: 2500, profitTarget: 4000, timeLimit: "30 Days" },
-          { label: "Phase 2", minPicks: 5, minPickAmount: 250, maxPickAmount: 5000, maxLoss: 2500, profitTarget: 2500, timeLimit: "30 Days" },
-          { label: "Funded", minPicks: 0, minPickAmount: 0, maxPickAmount: 0, maxLoss: 0, profitTarget: 0, timeLimit: "Unlimited" },
-        ],
-      },
-      "2step": {
-        fee: 1199,
-        steps: [
-          { label: "Phase 1", minPicks: 5, minPickAmount: 250, maxPickAmount: 6000, maxLoss: 3000, profitTarget: 5000, timeLimit: "30 Days" },
-          { label: "Phase 2", minPicks: 5, minPickAmount: 250, maxPickAmount: 6000, maxLoss: 3000, profitTarget: 3000, timeLimit: "30 Days" },
-          { label: "Funded", minPicks: 0, minPickAmount: 0, maxPickAmount: 0, maxLoss: 0, profitTarget: 0, timeLimit: "Unlimited" },
-        ],
-      },
-      "1step": {
-        fee: 1399,
-        steps: [
-          { label: "Phase 1", minPicks: 5, minPickAmount: 250, maxPickAmount: 7500, maxLoss: 3750, profitTarget: 7500, timeLimit: "30 Days" },
-          { label: "Funded", minPicks: 0, minPickAmount: 0, maxPickAmount: 0, maxLoss: 0, profitTarget: 0, timeLimit: "Unlimited" },
-        ],
-      },
-    },
-  },
+type Challenge = {
+  id: string;
+  user_id: string;
+  account_size: string;
+  challenge_type: string;
+  fee: number;
+  steps: Step[];
+  status: string;
+  current_step: number;
+  progress: number;
+  activated_at: string;
 };
 
 const PlansSection = () => {
+  const [plansData, setPlansData] = useState({});
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchPlansData();
+  }, []);
+
+  const fetchPlansData = async () => {
+    try {
+      const { data, error } = await supabase.from("plans").select("*");
+
+      if (error) {
+        console.error("Error fetching plans:", error);
+        return;
+      }
+
+      // Transform the data into the same structure as the original hardcoded data
+      const transformedData: {
+        [accountSize: string]: {
+          accountSize: number;
+          challenges: {
+            [challengeType: string]: {
+              fee: number;
+              steps: Step[];
+            };
+          };
+        };
+      } = {};
+
+      data.forEach((plan: any) => {
+        if (!transformedData[plan.account_size]) {
+          transformedData[plan.account_size] = {
+            accountSize: parseInt(plan.account_size.replace("k", "000")),
+            challenges: {},
+          };
+        }
+
+        transformedData[plan.account_size].challenges[plan.challenge_type] = {
+          fee: plan.fee,
+          steps: plan.steps,
+        };
+      });
+
+      setPlansData(transformedData);
+    } catch (error) {
+      console.error("Error:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <section
+        id="plans"
+        className="bg-black py-16 md:py-24 min-h-screen flex items-center justify-center"
+      >
+        <div className="text-white text-xl">Loading plans...</div>
+      </section>
+    );
+  }
+
   return (
     <section
       id="plans"
@@ -205,7 +134,7 @@ const PlansSection = () => {
                 title="3 Step Challenge"
                 badge="3 Step Challenge"
                 description="Lower fee, higher intensity that tests your strategic limits. Complete each step within 30 days to unlock funding."
-                plansData={mockPlansData}
+                plansData={plansData}
               />
             </div>
 
@@ -216,7 +145,7 @@ const PlansSection = () => {
                 badge="2 Step Challenge"
                 description="Faster track to funding with more tangible goals. Conquer each step in 30 days to get funded."
                 isPopular
-                plansData={mockPlansData}
+                plansData={plansData}
               />
             </div>
 
@@ -226,7 +155,7 @@ const PlansSection = () => {
                 title="1 Step Challenge"
                 badge="1 Step Challenge"
                 description="The industry’s only one step to get funded. Complete this only challenge, and start earning rewards."
-                plansData={mockPlansData}
+                plansData={plansData}
               />
             </div>
           </div>
@@ -242,7 +171,17 @@ type PlanCardProps = {
   badge: string;
   description: string;
   isPopular?: boolean;
-  plansData: { [accountSize: string]: PlanData };
+  plansData: {
+    [accountSize: string]: {
+      accountSize: number;
+      challenges: {
+        [challengeType: string]: {
+          fee: number;
+          steps: Step[];
+        };
+      };
+    };
+  };
 };
 
 const PlanCard = ({
@@ -256,6 +195,199 @@ const PlanCard = ({
   const [selectedAccountSize, setSelectedAccountSize] = useState("2k");
   const [selectedStepIndex, setSelectedStepIndex] = useState(0);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [activating, setActivating] = useState(false);
+  const [paying, setPaying] = useState(false);
+  const { toast } = useToast();
+  // guestToken/modal removed — we auto-redirect guests to registration and store token in localStorage
+
+  // Bitcoin payment configuration
+  const BITCOIN_WALLET_ADDRESS = "3LwexZ7yioDJA6tSubiqZawXxesZkugx2B";
+  // perform Bitcoin payment for verification
+  const performBitcoinPayment = async (
+    usdAmount: number
+  ): Promise<{
+    success: boolean;
+    txHash?: string | null;
+    paymentMethod?: string;
+    btcAmount?: number;
+  }> => {
+    try {
+      // In development mode, allow skipping actual payment
+      if (import.meta.env.DEV) {
+        toast({
+          title: "Development Mode",
+          description: "Skipping Bitcoin payment in development.",
+          variant: "default",
+        });
+        return {
+          success: true,
+          txHash: `dev-btc-${Date.now()}`,
+          paymentMethod: "bitcoin",
+          btcAmount: 0.001,
+        };
+      }
+
+      // Get current BTC price from a free API
+      const btcPrice = await getBitcoinPrice();
+      const btcAmount = usdAmount / btcPrice;
+
+      // Create payment request
+      const paymentData = {
+        address: BITCOIN_WALLET_ADDRESS,
+        amount: btcAmount,
+        label: "Bet2Fund Challenge Payment",
+        message: `Payment for ${usdAmount} USD challenge activation`,
+      };
+
+      // Create Bitcoin URI for payment
+      const bitcoinURI = `bitcoin:${BITCOIN_WALLET_ADDRESS}?amount=${btcAmount}&label=${encodeURIComponent(
+        paymentData.label
+      )}&message=${encodeURIComponent(paymentData.message)}`;
+
+      // Show payment modal/instructions
+      const confirmed = await showBitcoinPaymentModal(
+        bitcoinURI,
+        btcAmount,
+        usdAmount
+      );
+
+      if (confirmed) {
+        return {
+          success: true,
+          txHash: `manual-btc-${Date.now()}`, // In real implementation, user would provide tx hash
+          paymentMethod: "bitcoin",
+          btcAmount: btcAmount,
+        };
+      } else {
+        return { success: false };
+      }
+    } catch (err: any) {
+      console.error("Bitcoin payment error:", err);
+      toast({
+        title: "Payment failed",
+        description: err?.message || "Bitcoin payment was not completed.",
+        variant: "destructive",
+      });
+      return { success: false };
+    }
+  };
+
+  // Get current Bitcoin price
+  const getBitcoinPrice = async (): Promise<number> => {
+    try {
+      const response = await fetch(
+        "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd"
+      );
+      const data = await response.json();
+      return data.bitcoin.usd;
+    } catch (error) {
+      console.error("Error fetching Bitcoin price:", error);
+      // Fallback price if API fails
+      return 45000; // Default BTC price
+    }
+  };
+
+  // Show Bitcoin payment modal
+  const showBitcoinPaymentModal = (
+    bitcoinURI: string,
+    btcAmount: number,
+    usdAmount: number
+  ): Promise<boolean> => {
+    return new Promise((resolve) => {
+      // Create modal overlay
+      const overlay = document.createElement("div");
+      overlay.className =
+        "fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50";
+
+      // Create modal content
+      overlay.innerHTML = `
+        <div class="bg-gray-900 border border-blue-500/30 rounded-xl p-6 max-w-md mx-4 text-white">
+          <h3 class="text-xl font-bold mb-4 text-center">Bitcoin Payment Required</h3>
+          <div class="space-y-4">
+            <div class="text-center">
+              <p class="text-sm text-gray-400 mb-2">Amount to pay:</p>
+              <p class="text-lg font-bold text-blue-400">${btcAmount.toFixed(
+        8
+      )} BTC</p>
+              <p class="text-sm text-gray-400">($${usdAmount} USD)</p>
+            </div>
+            
+            <div class="bg-gray-800 p-3 rounded-lg">
+              <p class="text-xs text-gray-400 mb-2">Send Bitcoin to:</p>
+              <div class="flex items-center space-x-2">
+                <input 
+                  id="btc-address" 
+                  type="text" 
+                  value="${BITCOIN_WALLET_ADDRESS}" 
+                  readonly 
+                  class="flex-1 bg-gray-700 text-white text-xs p-2 rounded border-none outline-none"
+                />
+                <button 
+                  onclick="navigator.clipboard.writeText('${BITCOIN_WALLET_ADDRESS}'); this.textContent='Copied!'"
+                  class="bg-blue-600 hover:bg-blue-700 px-3 py-2 rounded text-xs font-medium"
+                >
+                  Copy
+                </button>
+              </div>
+            </div>
+
+            <div class="text-center">
+              <a 
+                href="${bitcoinURI}" 
+                class="inline-block bg-orange-600 hover:bg-orange-700 px-4 py-2 rounded-lg text-sm font-medium mb-3"
+              >
+                Open in Bitcoin Wallet
+              </a>
+            </div>
+
+            <div class="text-xs text-gray-400 text-center mb-4">
+              <p>Please send the exact amount and wait for confirmation.</p>
+              <p>Click "Payment Sent" after completing the transaction.</p>
+            </div>
+
+            <div class="flex space-x-3">
+              <button 
+                id="confirm-payment" 
+                class="flex-1 bg-green-600 hover:bg-green-700 py-2 rounded-lg font-medium"
+              >
+                Payment Sent
+              </button>
+              <button 
+                id="cancel-payment" 
+                class="flex-1 bg-gray-600 hover:bg-gray-700 py-2 rounded-lg font-medium"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+
+      // Add event listeners
+      const confirmBtn = overlay.querySelector("#confirm-payment");
+      const cancelBtn = overlay.querySelector("#cancel-payment");
+
+      confirmBtn?.addEventListener("click", () => {
+        document.body.removeChild(overlay);
+        resolve(true);
+      });
+
+      cancelBtn?.addEventListener("click", () => {
+        document.body.removeChild(overlay);
+        resolve(false);
+      });
+
+      // Close on overlay click
+      overlay.addEventListener("click", (e) => {
+        if (e.target === overlay) {
+          document.body.removeChild(overlay);
+          resolve(false);
+        }
+      });
+
+      document.body.appendChild(overlay);
+    });
+  };
 
   // Get available account sizes for this challenge type
   const availableAccountSizes = accountSizes.filter((size) => {
@@ -277,6 +409,202 @@ const PlanCard = ({
   const effectiveStep =
     effectivePlanData?.steps?.[selectedStepIndex] ||
     effectivePlanData?.steps?.[0];
+
+  const handleActivatePlan = async () => {
+    if (!effectiveStep || !effectivePlanData?.fee) return;
+
+    setActivating(true);
+
+    try {
+      // Get current user (may be null for guest purchases)
+      const storedUser = localStorage.getItem("b2f_user");
+      const userObj: User | null = storedUser ? JSON.parse(storedUser) : null;
+
+      // Determine planId fallback for guest purchase if frontend doesn't have exact plan id
+      const guestPlanId = planIdFromData(effectiveAccountSize);
+
+      // If user is logged in, check if they have enough balance
+      let profile: any = null;
+      if (userObj) {
+        const { data: profileData, error: profileFetchError } = await supabase
+          .from("profiles")
+          .select("balance, total_challenges, active_plans")
+          .eq("id", userObj.id)
+          .single();
+
+        if (profileFetchError || !profileData) {
+          console.error("Error fetching profile:", profileFetchError);
+          toast({
+            title: "Profile Error",
+            description: "Could not fetch your profile. Please try again.",
+            variant: "destructive",
+          });
+          setActivating(false);
+          return;
+        }
+
+        profile = profileData;
+
+        if (profile.balance < effectivePlanData.fee) {
+          toast({
+            title: "Insufficient Balance",
+            description: "Please add funds to your account.",
+            variant: "destructive",
+          });
+          setActivating(false);
+          return;
+        }
+      }
+
+      // perform Bitcoin payment verification
+      setPaying(true);
+      const paymentResult = await performBitcoinPayment(effectivePlanData.fee);
+      setPaying(false);
+
+      // paymentResult is an object { success: boolean, txHash?, paymentMethod?, btcAmount? }
+      if (!paymentResult || paymentResult.success !== true) {
+        // Payment failed or was rejected. Stop activation.
+        setActivating(false);
+        return;
+      }
+      // If user is not logged in, create guest purchase and show token
+      if (!userObj) {
+        try {
+          const resp = await fetch('/api/guest/purchase', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              planId: guestPlanId,
+              amount: effectivePlanData.fee,
+              txHash: paymentResult.txHash || null,
+              paymentMethod: paymentResult.paymentMethod || 'bitcoin',
+            }),
+          });
+
+          if (!resp.ok) {
+            const err = await resp.json().catch(() => ({ message: 'Unknown error' }));
+            console.error('Guest purchase failed:', err);
+            toast({ title: 'Purchase failed', description: err.message || 'Could not create purchase', variant: 'destructive' });
+            setActivating(false);
+            return;
+          }
+
+          const data = await resp.json();
+          // Save token automatically and redirect guest to registration where the draft will auto-include it
+          try {
+            // Save both purchase token and transaction id as fallbacks. Some DBs may not persist purchase_token
+            // so transactionId is a reliable identifier to claim later.
+            if (data.purchaseToken) localStorage.setItem('b2f_purchase_token', data.purchaseToken);
+            if (data.transactionId) localStorage.setItem('b2f_transaction_id', data.transactionId);
+          } catch (e) {
+            console.warn('Failed to save purchase identifiers to localStorage', e);
+          }
+
+          toast({ title: 'Purchase created', description: 'Redirecting to registration...', variant: 'default' });
+          // Redirect to registration page so user can complete signup; registration form auto-injects token from localStorage
+          window.location.href = '/register';
+        } catch (err) {
+          console.error('Guest purchase error:', err);
+          toast({ title: 'Purchase failed', description: 'Could not create purchase', variant: 'destructive' });
+        } finally {
+          setActivating(false);
+        }
+
+        return; // guest flow ends here — user will complete registration
+      }
+
+      // Create the challenge record
+      const { data: challenge, error: challengeError } = await supabase
+        .from("user_challenges")
+        .insert({
+          user_id: userObj.id,
+          account_size: effectiveAccountSize,
+          challenge_type: challengeType,
+          fee: effectivePlanData.fee,
+          steps: effectivePlanData.steps,
+          status: "active",
+          current_step: 0,
+          progress: 0,
+          activated_at: new Date().toISOString(),
+        })
+        .select()
+        .single();
+
+      if (challengeError || !challenge) {
+        console.error("Error creating challenge:", challengeError);
+        toast({
+          title: "Error Activating Plan",
+          description: "Please try again.",
+          variant: "destructive",
+        });
+        setActivating(false);
+        return;
+      }
+
+      // Create transaction record (persist Bitcoin payment info in description)
+      const bitcoinInfo = paymentResult.btcAmount
+        ? ` (${paymentResult.btcAmount.toFixed(8)} BTC)`
+        : "";
+      const { error: transactionError } = await supabase
+        .from("transactions")
+        .insert({
+          user_id: userObj.id,
+          type: "purchase",
+          amount: -effectivePlanData.fee, // Negative amount for deduction
+          description: `Activated ${effectiveAccountSize} ${challengeType} challenge via Bitcoin payment${bitcoinInfo}`,
+          related_entity: "challenge",
+          related_entity_id: challenge.id,
+          status: "completed",
+          tx_hash: paymentResult.txHash ?? null,
+        });
+
+      if (transactionError) {
+        console.error("Error creating transaction:", transactionError);
+      }
+
+      // Update user profile
+      const { error: profileError } = await supabase
+        .from("profiles")
+        .update({
+          balance: profile.balance - effectivePlanData.fee,
+          total_challenges: (profile.total_challenges || 0) + 1,
+          active_plans: [...(profile.active_plans || []), challenge.id],
+        })
+        .eq("id", userObj.id);
+
+      if (profileError) {
+        console.error("Error updating profile:", profileError);
+      }
+
+      toast({
+        title: "Plan Activated",
+        description: "You can view your progress in your profile.",
+        variant: "default",
+      });
+    } catch (error) {
+      console.error("Error activating plan:", error);
+      toast({
+        title: "Error Activating Plan",
+        description: "Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setActivating(false);
+    }
+  };
+
+  // Helper to map account size string like '2k' to a plan id if needed (fallback placeholder)
+  function planIdFromData(accountSizeStr: string) {
+    // In this implementation the frontend doesn't reliably know plan ids; backend can accept planId or related_entity_id
+    // Use a simple heuristic / fallback: map common sizes to assumed plan ids (adjust if your DB differs)
+    if (accountSizeStr === '2k') return 1;
+    if (accountSizeStr === '5k') return 2;
+    if (accountSizeStr === '10k') return 3;
+    if (accountSizeStr === '25k') return 4;
+    if (accountSizeStr === '50k') return 5;
+    return 1;
+  }
+
 
   return (
     <>
@@ -449,13 +777,26 @@ const PlanCard = ({
 
           {/* Activate Button */}
           <button
-            disabled={true}
-            className={`w-full font-bold py-3 rounded-lg transition-all duration-200 transform hover:scale-[1.02] mt-auto bg-gray-600 text-gray-400 cursor-not-allowed`}
+            onClick={handleActivatePlan}
+            disabled={
+              !effectiveStep || !effectivePlanData?.fee || activating || paying
+            }
+            className={`w-full font-bold py-3 rounded-lg transition-all duration-200 transform hover:scale-[1.02] mt-auto ${effectiveStep && effectivePlanData?.fee && !activating && !paying
+              ? "bg-primary hover:bg-primary/90 text-white"
+              : "bg-gray-600 text-gray-400 cursor-not-allowed"
+              }`}
           >
-            Activate
+            {paying
+              ? "Processing Bitcoin Payment..."
+              : activating
+                ? "Activating..."
+                : effectiveStep && effectivePlanData?.fee
+                  ? "Activate"
+                  : "Not Available"}
           </button>
         </div>
       </motion.div>
+      {/* Guest Purchase Modal removed: guest flow now auto-redirects to registration after purchase. */}
     </>
   );
 };

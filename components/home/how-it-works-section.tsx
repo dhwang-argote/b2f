@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import Link from "next/link";
+import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import CircularProgress from "@/components/ui/circular-progress";
 import bgImage from "../../assets/b2f/1.jpg";

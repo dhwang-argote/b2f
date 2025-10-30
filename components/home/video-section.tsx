@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useState, useRef, useEffect } from "react";
-
+import introVideo from "../../assets/b2f/b2f-intro.mp4";
 import videoImage from "../../assets/b2f/b2f-intro-image.png";
 
 const VideoSection = () => {
@@ -75,7 +75,7 @@ const VideoSection = () => {
                   <video
                     ref={videoRef}
                     className="w-full h-full rounded-lg"
-                    src="/b2f-intro.mp4"
+                    src={introVideo}
                     controls
                     playsInline
                     preload="metadata"

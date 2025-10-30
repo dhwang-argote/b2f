@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import Link from "next/link";
+import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 
 // Dummy testimonials data

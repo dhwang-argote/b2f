@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-
+import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import bgImage from "../../assets/b2f/3.jpg";
 
@@ -32,11 +32,12 @@ const CTASection = () => {
             sports betting skills into a legitimate income stream.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <a href="#plans">
+            <Link href="#plans">
               <Button className="px-8 py-4 bg-primary hover:bg-primary/90 text-white rounded-md font-medium text-lg shadow-[0_0_15px_rgba(0,178,255,0.7)] transition-all">
                 Start Your Challenge
               </Button>
-                          </a>            {/* <Link href="#">
+            </Link>
+            {/* <Link href="#">
               <Button
                 variant="outline"
                 className="px-8 py-4 bg-transparent text-primary border border-primary hover:bg-primary/10 rounded-md font-medium text-lg transition-all"

@@ -1,4 +1,4 @@
-
+import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
@@ -53,15 +53,15 @@ const HeroSection = () => {
               capital.
             </p>
             <div className="flex flex-wrap gap-4">
-              <a href="#plans">
+              <Link href="#plans">
                 <Button
                   size="lg"
                   className="px-8 py-6 btn-neon text-white rounded-md font-medium text-lg transition-all"
                 >
-                  Get Started
+                  Get Funded Now
                 </Button>
-              </a>
-              <a href="#how-it-works">
+              </Link>
+              <Link href="#how-it-works">
                 <Button
                   variant="outline"
                   size="lg"
@@ -69,7 +69,7 @@ const HeroSection = () => {
                 >
                   Learn More
                 </Button>
-              </a>
+              </Link>
             </div>
           </motion.div>
 

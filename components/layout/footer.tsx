@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "wouter";
 import { IconCheck } from "../icons";
 import footerIcon from "../../assets/b2f/logo-main.png";
 
@@ -11,7 +11,7 @@ const Footer = () => {
           <div>
             <Link href="/">
               <img
-                src={footerIcon.src}
+                src={footerIcon}
                 alt="Bet2Fund Logo"
                 className="h-[100px] cursor-pointer"
               />
