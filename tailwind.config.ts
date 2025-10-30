@@ -4,7 +4,11 @@ export default {
   darkMode: ["class"],
   content: [
     "./index.html",
-    "./{pages,components,lib,hooks,shared}/**/*.{js,jsx,ts,tsx}",
+    "./pages/**/*.{js,jsx,ts,tsx}",
+    "./components/**/*.{js,jsx,ts,tsx}",
+    "./lib/**/*.{js,jsx,ts,tsx}",
+    "./hooks/**/*.{js,jsx,ts,tsx}",
+    "./shared/**/*.{js,jsx,ts,tsx}"
   ],
   theme: {
     extend: {
@@ -86,3 +90,7 @@ export default {
       transitionTimingFunction: {
         'framer-ease': 'cubic-bezier(0.23, 1, 0.32, 1)',
       },
+    },
+  },
+  plugins: [],
+} satisfies Config;

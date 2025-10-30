@@ -147,7 +147,7 @@ const TestimonialsSection = () => {
             <>
               <div className="overflow-hidden ">
                 <div
-                  className="flex transition-transform duration-3000  ease-[cubic-bezier(0.23,1,0.32,1)]"
+                  className="flex transition-transform duration-3000  ease-framer-ease"
                   style={{ transform: `translateX(-${activeSlide * 100}%)` }}
                 >
                   {slides.map((slideGroup, groupIndex) => (
