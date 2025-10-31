@@ -4,14 +4,6 @@
   "outputDirectory": "dist/public",
   "installCommand": "npm install",
   "framework": null,
-  "functions": {
-      "runtime": "nodejs20.x",
-      "src": "api/index.ts",
-
-      "memory": 1024,
-      "maxDuration": 30
-    }
-  },
   "rewrites": [
     {
       "source": "/(.*)",
@@ -47,4 +39,3 @@
     }
   ]
 }
-
